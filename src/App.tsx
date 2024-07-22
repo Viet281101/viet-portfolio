@@ -7,6 +7,9 @@ import Courses from './pages/Courses';
 import Contact from './pages/Contact';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
+import menuIcon from '/menu.png';
+import closeIcon from '/x_close.png';
+
 function App() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false);
@@ -60,8 +63,8 @@ function App() {
 			)}
 		</header>
 		<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 md:hidden transition-transform duration-300 ease-in-out">
-			<img src="/menu.png" alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
-			<img src="/x_close.png" alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
+			<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
+			<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 		</button>
 		<main className="flex-grow pt-16">
 			<Routes>
