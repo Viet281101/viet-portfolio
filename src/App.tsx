@@ -40,7 +40,7 @@ function App() {
 	const handleLinkClick = () => { if (isMenuOpen) {handleMenuClose();} };
 
 	return (
-		<div className="flex flex-col min-h-screen">
+		<div className="flex flex-col min-h-screen bg-black">
 		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
 			<nav className="relative flex justify-between items-center">
 			<div className="text-3xl font-bold">

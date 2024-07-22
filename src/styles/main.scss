@@ -6,13 +6,13 @@
 @import 'tailwindcss/utilities';
 @font-face {font-family: 'Pixellari';src: url("/Pixellari.ttf") format("truetype");}
 * {font-family: $font-family;}
-@keyframes slide-right {0% {opacity: 0;transform: translateX(-100%);}100% {opacity: 1;transform: translateX(0);}}
-@keyframes slide-right-disappear {0% {opacity: 1;transform: translateX(0);}100% {opacity: 0;transform: translateX(-100%);}}
-.animate-slide-right {@include transition(opacity, 0.4s, ease-in-out);animation: slide-right 0.4s ease-in-out;}
-.animate-slide-right-disappear {@include transition(opacity, 0.4s, ease-in-out);animation: slide-right-disappear 0.4s ease-in-out;}
-header.fixed {top: 0;left: 0;right: 0;z-index: 1000;&.hidden {transform: translateY(-100%);}}
-#menu-icon {top: 1rem;right: 1rem;z-index: 1800;}
-.hero { display: flex; justify-content: space-between; align-items: center; height: 100vh; background: black; color: white; padding: 0 2rem; 
-	&-content { flex: 1; h1 { font-size: 4rem; margin: 0; } p { font-size: 1.5rem; margin: 0.5rem 0 0; } };
-	&-canvas { flex: 1; height: 100%; };
+@keyframes slide-right {0%{opacity:0;transform:translateX(-100%);};100%{opacity:1;transform:translateX(0);}}
+@keyframes slide-right-disappear {0%{opacity: 1;transform: translateX(0);};100%{opacity:0;transform:translateX(-100%);}}
+.animate-slide-right {@include transition(opacity, 0.4s, ease-in-out);animation:slide-right 0.4s ease-in-out;}
+.animate-slide-right-disappear {@include transition(opacity, 0.4s, ease-in-out);animation:slide-right-disappear 0.4s ease-in-out;}
+header.fixed {top:0;left:0;right:0;z-index:1000;&.hidden{transform: translateY(-100%);}}
+#menu-icon {top:1rem;right:1rem;z-index:1800;}
+.hero {display:flex;justify-content:space-between;align-items:center;height:100vh;background:black;color:white;padding:0 2rem; 
+	&-content {flex:1;h1{font-size:4rem;margin:0;};p{font-size:1.5rem;margin:0.5rem 0 0;}};
+	&-canvas {flex:1;height:100%;};
 }
