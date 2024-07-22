@@ -1,11 +1,12 @@
+import React from 'react'
+import Hero from '../components/Hero'
 
-function Home() {
+const Home: React.FC = () => {
 	return (
 		<div>
-		<h1>Home</h1>
-		<p>Welcome to my portfolio!</p>
+		<Hero />
 		</div>
-	)
-}
+	);
+};
 
 export default Home

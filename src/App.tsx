@@ -37,13 +37,13 @@ function App() {
 	const handleLinkClick = () => { if (isMenuOpen) {handleMenuClose();} };
 
 	return (
-		<div>
+		<div className="flex flex-col min-h-screen">
 		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
 			<nav className="relative flex justify-between items-center">
 			<div className="text-3xl font-bold">
 				<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
 			</div>
-			<div className="hidden md:flex space-x-8 text-xl">
+			<div className="hidden md:flex space-x-12 text-2xl">
 				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
 				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
 				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
@@ -63,7 +63,7 @@ function App() {
 			<img src="/menu.png" alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 			<img src="/x_close.png" alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 		</button>
-		<main className="pt-16 min-h-screen"> {}
+		<main className="flex-grow pt-16">
 			<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/about" element={<About />} />
@@ -72,7 +72,7 @@ function App() {
 			<Route path="/contact" element={<Contact />} />
 			</Routes>
 		</main>
-		<footer className="bg-gray-900 text-white p-4 mt-8">
+		<footer className="bg-gray-900 text-white p-4">
 			<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
 			<div className="md:order-1 order-2">
 				<Link to="/" className="hover:text-[#3ac8f2]">Viet Nguyen</Link> / © 2024 Viet NGUYEN

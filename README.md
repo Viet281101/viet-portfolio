@@ -4,5 +4,11 @@
 
 Simple portfolio website to showcase my study projects and skills. 
 
-[![alt text](/public/vite.svg)](https://vitejs.dev/) **&** [![alt text](/public/react.svg)](https://react.dev/)  **&** [![alt text](/public/typescript.svg)](https://www.typescriptlang.org/) **&** ![alt text](/public/tailwind.svg) **&** [![alt text](public/threejs.png)](https://github.com/mrdoob/three.js)
+[![alt text](/public/vite.svg)](https://vitejs.dev/) **&** [![alt text](/public/react.svg)](https://react.dev/)  **&** [![alt text](/public/typescript.svg)](https://www.typescriptlang.org/) **&** [![alt text](/public/tailwind.svg)](https://tailwindcss.com/) **&** [![alt text](public/sass.svg)](https://sass-lang.com/) **&** [![alt text](public/threejs.png)](https://github.com/mrdoob/three.js)
 
+#### Debug
+- Use `npm` commands:
+```bash
+npm install
+npm run dev
+```
