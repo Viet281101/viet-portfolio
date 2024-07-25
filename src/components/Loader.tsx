@@ -5,7 +5,7 @@ const CanvasLoader = () => {
 	return (
 		<Html as='div' center className="flex flex-col items-center justify-center">
 			<span className='canvas-loader'></span>
-			<p className="text-[14px] text-gray-100 font-extrabold mt-10">
+			<p className="text-[14px] text-slate-700 font-extrabold mt-10">
 				{progress.toFixed(2)}%
 			</p>
 		</Html>

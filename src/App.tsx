@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Courses from './pages/Courses';
+import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
@@ -40,7 +41,7 @@ function App() {
 	const handleLinkClick = () => { if (isMenuOpen) {handleMenuClose();} };
 
 	return (
-		<div className="flex flex-col min-h-screen bg-black">
+		<div className="flex flex-col min-h-screen">
 		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
 			<nav className="relative flex justify-between items-center">
 			<div className="text-3xl font-bold">
@@ -50,6 +51,7 @@ function App() {
 				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
 				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
 				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
+				<Link to="/blog" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Blog</Link>
 				<Link to="/contact" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Contact</Link>
 			</div>
 			</nav>
@@ -58,6 +60,7 @@ function App() {
 				<Link to="/about" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>About</Link>
 				<Link to="/projects" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Projects</Link>
 				<Link to="/courses" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Courses</Link>
+				<Link to="/blog" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Blog</Link>
 				<Link to="/contact" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Contact</Link>
 			</div>
 			)}
@@ -66,21 +69,22 @@ function App() {
 			<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 			<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 		</button>
-		<main className="flex-grow pt-16">
+		<main className="flex-grow pt-16 z-10">
 			<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/about" element={<About />} />
 			<Route path="/projects" element={<Projects />} />
 			<Route path="/courses" element={<Courses />} />
+			<Route path="/blog" element={<Blog />} />
 			<Route path="/contact" element={<Contact />} />
 			</Routes>
 		</main>
-		<footer className="bg-gray-900 text-white p-4">
+		<footer className="bg-gray-900 text-white p-4 z-50">
 			<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
 			<div className="md:order-1 order-2">
 				<Link to="/" className="hover:text-[#3ac8f2]">Viet Nguyen</Link> / © 2024 Viet NGUYEN
 			</div>
-			<div className="md:order-2 order-1 space-x-4 text-lg">
+			<div className="md:order-2 order-1 space-x-4 text-xl">
 				<Link to="/about" className="hover:text-[#3ac8f2]">About</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
 				<Link to="/projects" className="hover:text-[#3ac8f2]">Projects</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
 				<Link to="/courses" className="hover:text-[#3ac8f2]">Courses</Link>
