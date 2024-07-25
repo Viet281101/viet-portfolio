@@ -37,7 +37,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.timer = this.maxLength * 2;
 				this.colors = ["#3bc9f3", "#38c5f1", "#1a99dc", "#1591d8"];
 				this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
-			};
+			}
 			draw(context: CanvasRenderingContext2D) {
 				context.beginPath();
 				context.moveTo(this.history[0].x, this.history[0].y);
@@ -47,13 +47,13 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				context.lineWidth = Math.floor(Math.random() * 0.5 + 0.2);
 				context.strokeStyle = this.color;
 				context.stroke();
-			};
+			}
 			update() {
 				this.timer--;
 				if (this.timer >= 1) {
-					let x = Math.floor(this.x / this.effect.cellSize);
-					let y = Math.floor(this.y / this.effect.cellSize);
-					let index = y * this.effect.cols + x;
+					const x = Math.floor(this.x / this.effect.cellSize);
+					const y = Math.floor(this.y / this.effect.cellSize);
+					const index = y * this.effect.cols + x;
 					this.angle = this.effect.flowField[index];
 					this.speedX = Math.cos(this.angle);
 					this.speedY = Math.sin(this.angle);
@@ -63,14 +63,14 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 					if (this.history.length > this.maxLength) { this.history.shift(); }
 				} else if (this.history.length > 1) { this.history.shift(); } 
 				else { this.reset(); }
-			};
+			}
 			reset() {
 				this.x = Math.floor(Math.random() * this.effect.width);
 				this.y = Math.floor(Math.random() * this.effect.height);
 				this.history = [{ x: this.x, y: this.y }];
 				this.timer = this.maxLength * 2;
-			};
-		};
+			}
+		}
 
 		class Effect {
 			canvas: HTMLCanvasElement;
@@ -101,20 +101,20 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.init();
 				// window.addEventListener("keydown", (e) => { if (e.key === 'd') this.debug = !this.debug; });
 				window.addEventListener("resize", () => { this.resize(window.innerWidth, window.innerHeight); });
-			};
+			}
 			init() {
 				this.rows = Math.floor(this.height / this.cellSize);
 				this.cols = Math.floor(this.width / this.cellSize);
 				this.flowField = [];
 				for (let y = 0; y < this.rows; y++) {
 					for (let x = 0; x < this.cols; x++) {
-						let angle = (Math.cos(x * this.zoom) + Math.sin(y * this.zoom)) * this.curve;
+						const angle = (Math.cos(x * this.zoom) + Math.sin(y * this.zoom)) * this.curve;
 						this.flowField.push(angle);
 					}
 				}
 				this.particles = [];
 				for (let i = 0; i < this.numberParticles; i++) { this.particles.push(new Particle(this)); }
-			};
+			}
 			drawGrid(context: CanvasRenderingContext2D) {
 				context.save();
 				context.strokeStyle = 'white';
@@ -132,7 +132,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 					context.stroke();
 				}
 				context.restore();
-			};
+			}
 			resize(width: number, height: number) {
 				this.canvas.width = width;
 				this.canvas.height = height;
@@ -141,7 +141,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.numberParticles = (width <= 768) ? 25 : 80;
 				this.cellSize = (width <= 768) ? 30 : 40;
 				this.init();
-			};
+			}
 			render(context: CanvasRenderingContext2D) {
 				if (this.debug) this.drawGrid(context);
 				this.particles.forEach(particle => {
@@ -149,7 +149,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 					particle.update();
 				});
 			}
-		};
+		}
 		const effect = new Effect(canvas);
 		const animate = () => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);

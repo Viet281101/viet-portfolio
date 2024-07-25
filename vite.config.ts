@@ -18,6 +18,10 @@ export default defineConfig({
 						return id.toString().split('node_modules/')[1].split('/')[0].toString();
 					}
 				},
+			},
+			onwarn(warning, warn) {
+				if (warning.code === 'EVAL' && warning.id && /three-stdlib/.test(warning.id)) { return; }
+				warn(warning);
 			}
 		},
 		chunkSizeWarningLimit: 1000
