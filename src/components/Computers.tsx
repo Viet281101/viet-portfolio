@@ -7,7 +7,7 @@ import desktop_pc from "/desktop_pc/scene.glb?url";
 
 interface ComputersProps {
 	isMobile: boolean;
-};
+}
 
 const Computers = ({ isMobile }: ComputersProps) => {
 	const computer = useGLTF(desktop_pc);
