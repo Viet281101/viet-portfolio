@@ -44,10 +44,10 @@ function App() {
 		<div className="flex flex-col min-h-screen">
 		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
 			<nav className="relative flex justify-between items-center">
-			<div className="text-3xl font-bold">
+			<div className="text-3xl font-bold ps-4">
 				<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
 			</div>
-			<div className="hidden md:flex space-x-12 text-2xl">
+			<div className="hidden md:flex space-x-20 text-2xl">
 				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
 				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
 				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
