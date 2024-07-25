@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Courses from './pages/Courses';
-import Blog from './pages/Blog';
-import Contact from './pages/Contact';
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Projects = lazy(() => import('./pages/Projects'));
+const Courses = lazy(() => import('./pages/Courses'));
+const Blog = lazy(() => import('./pages/Blog'));
+const Contact = lazy(() => import('./pages/Contact'));
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 import menuIcon from '/menu.png';
@@ -70,6 +70,7 @@ function App() {
 			<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 		</button>
 		<main className="flex-grow pt-16 z-10">
+		<Suspense fallback={<div>Loading...</div>}>
 			<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/about" element={<About />} />
@@ -78,6 +79,7 @@ function App() {
 			<Route path="/blog" element={<Blog />} />
 			<Route path="/contact" element={<Contact />} />
 			</Routes>
+		</Suspense>
 		</main>
 		<footer className="bg-gray-900 text-white p-4 z-50">
 			<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
