@@ -18,8 +18,8 @@ const App = () => {
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-		const target = event.target as HTMLElement;
-		if (!target.closest('nav') && !target.closest('#menu-icon')) { setIsMenuOpen(false); }
+			const target = event.target as HTMLElement;
+			if (!target.closest('nav') && !target.closest('#menu-icon')) { setIsMenuOpen(false); }
 		};
 		if (isMenuOpen) { document.addEventListener('click', handleClickOutside); }
 		else { document.removeEventListener('click', handleClickOutside); }
@@ -47,7 +47,7 @@ const App = () => {
 			<div className="text-3xl font-bold ps-4 animate-zoom-appear">
 				<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
 			</div>
-			<div className="hidden md:flex space-x-20 text-2xl animate-zoom-appear">
+			<div className="hidden md:flex space-x-20 text-2xl animate-slide-right">
 				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
 				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
 				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>

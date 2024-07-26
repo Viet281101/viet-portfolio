@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './styles/main.scss';
-
 const App = lazy(() => import('./App'));
 const basename = process.env.NODE_ENV === 'production' ? '/viet-portfolio' : '/';
 

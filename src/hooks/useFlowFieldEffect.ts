@@ -22,6 +22,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 			timer: number;
 			colors: string[];
 			color: string;
+			lineWidth: number;
 			constructor(effect: Effect) {
 				this.effect = effect;
 				this.x = Math.floor(Math.random() * this.effect.width);
@@ -35,6 +36,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.timer = this.maxLength * 2;
 				this.colors = ["#3bc9f3", "#38c5f1", "#1a99dc", "#1591d8"];
 				this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+				this.lineWidth = Math.random() * 0.6 + 0.2;
 			}
 			draw(context: CanvasRenderingContext2D) {
 				context.beginPath();
@@ -42,7 +44,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				for (let i = 0; i < this.history.length; i++) {
 					context.lineTo(this.history[i].x, this.history[i].y);
 				}
-				context.lineWidth = Math.floor(Math.random() * 0.5 + 0.2);
+				context.lineWidth = this.lineWidth;
 				context.strokeStyle = this.color;
 				context.stroke();
 			}
@@ -102,7 +104,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				window.addEventListener('resize', debouncedResizeCanvas);
 			}
 			getNumberOfParticles(width: number): number {
-				return width <= 768 ? 25 : 60;
+				return width <= 768 ? 25 : 70;
 			}
 			init() {
 				this.rows = Math.floor(this.height / this.cellSize);
