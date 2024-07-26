@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy, useCallback } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useCallback, useRef } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -6,7 +6,7 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Courses = lazy(() => import('./pages/Courses'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+const Footer = lazy(() => import('./Footer'));
 
 import menuIcon from '/menu.png';
 import closeIcon from '/x_close.png';
@@ -15,6 +15,8 @@ const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false);
 	const [scrollDirection, setScrollDirection] = useState('up');
+	const [footerVisible, setFooterVisible] = useState(false);
+	const footerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -39,6 +41,15 @@ const App = () => {
 	}, []);
 	const handleMenuClose = useCallback(() => { setIsClosing(true); setTimeout(() => { setIsMenuOpen(false); setIsClosing(false); }, 400); }, []);
 	const handleLinkClick = useCallback(() => { if (isMenuOpen) { handleMenuClose(); } }, [isMenuOpen, handleMenuClose]);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => { if (entries[0].isIntersecting) { setFooterVisible(true); observer.disconnect(); } }, 
+			{ threshold: 0.1 } 
+		);
+		if (footerRef.current) { observer.observe(footerRef.current); }
+		return () => { if (footerRef.current) { observer.unobserve(footerRef.current); } };
+	}, [footerRef]);
 
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -81,23 +92,12 @@ const App = () => {
 			</Routes>
 			</Suspense>
 		</main>
-		<footer className="bg-gray-900 text-white p-4 z-50">
-			<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
-			<div className="md:order-1 order-2">
-				<Link to="/" className="hover:text-[#3ac8f2]">Viet Nguyen</Link> / © 2024 Viet NGUYEN
-			</div>
-			<div className="md:order-2 order-1 space-x-4 text-xl">
-				<Link to="/about" className="hover:text-[#3ac8f2]">About</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
-				<Link to="/projects" className="hover:text-[#3ac8f2]">Projects</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
-				<Link to="/courses" className="hover:text-[#3ac8f2]">Courses</Link>
-			</div>
-			<div className="md:order-3 order-3 flex space-x-4">
-				<a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#3ac8f2]"><FaGithub size={24} /></a>
-				<a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#3ac8f2]"><FaLinkedin size={24} /></a>
-				<a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#3ac8f2]"><FaTwitter size={24} /></a>
-			</div>
-			</div>
-		</footer>
+		<div ref={footerRef} className="h-4"></div>
+		{footerVisible && (
+			<Suspense fallback={<div>Loading...</div>}>
+			<Footer />
+			</Suspense>
+		)}
 		</div>
 	);
 }

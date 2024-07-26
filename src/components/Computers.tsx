@@ -11,7 +11,6 @@ interface ComputersProps {
 
 const Computers = React.memo(({ isMobile }: ComputersProps) => {
 	const computer = useGLTF(desktop_pc);
-
 	return (
 		<mesh>
 		<hemisphereLight intensity={1.15} groundColor={"blue"} />
@@ -25,11 +24,7 @@ const Computers = React.memo(({ isMobile }: ComputersProps) => {
 const ComputersCanvas = () => {
 	const [isMobile, setIsMobile] = useState(false);
 	const mediaQuery = useMemo(() => window.matchMedia("(max-width: 500px)"), []);
-
-	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => {
-		setIsMobile(event.matches);
-	}, []);
-
+	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => { setIsMobile(event.matches); }, []);
 	useEffect(() => {
 		setIsMobile(mediaQuery.matches);
 		mediaQuery.addEventListener("change", handleMediaQueryChange);
