@@ -19,6 +19,13 @@
 	0% { opacity: 1; transform: translateX(0); }
 	100% { opacity: 0; transform: translateX(-100%); }
 }
+@keyframes zoom-appear {
+	0% { transform: scale(0.5); opacity: 0; }
+	100% { transform: scale(1); opacity: 1; }
+}
+.animate-zoom-appear {
+	animation: zoom-appear 0.6s ease-in-out;
+}
 .animate-slide-right {
 	@include transition(opacity, 0.4s, ease-in-out);
 	animation: slide-right 0.4s ease-in-out;

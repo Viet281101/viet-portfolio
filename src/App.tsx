@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useCallback } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -11,15 +11,15 @@ import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import menuIcon from '/menu.png';
 import closeIcon from '/x_close.png';
 
-function App() {
+const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false);
 	const [scrollDirection, setScrollDirection] = useState('up');
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			const target = event.target as HTMLElement;
-			if (!target.closest('nav') && !target.closest('#menu-icon')) { setIsMenuOpen(false); }
+		const target = event.target as HTMLElement;
+		if (!target.closest('nav') && !target.closest('#menu-icon')) { setIsMenuOpen(false); }
 		};
 		if (isMenuOpen) { document.addEventListener('click', handleClickOutside); }
 		else { document.removeEventListener('click', handleClickOutside); }
@@ -37,17 +37,17 @@ function App() {
 		window.addEventListener('scroll', handleScroll);
 		return () => { window.removeEventListener('scroll', handleScroll); };
 	}, []);
-	const handleMenuClose = () => { setIsClosing(true); setTimeout(() => { setIsMenuOpen(false);setIsClosing(false); }, 400); };
-	const handleLinkClick = () => { if (isMenuOpen) {handleMenuClose();} };
+	const handleMenuClose = useCallback(() => { setIsClosing(true); setTimeout(() => { setIsMenuOpen(false); setIsClosing(false); }, 400); }, []);
+	const handleLinkClick = useCallback(() => { if (isMenuOpen) { handleMenuClose(); } }, [isMenuOpen, handleMenuClose]);
 
 	return (
 		<div className="flex flex-col min-h-screen">
 		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
 			<nav className="relative flex justify-between items-center">
-			<div className="text-3xl font-bold ps-4">
+			<div className="text-3xl font-bold ps-4 animate-zoom-appear">
 				<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
 			</div>
-			<div className="hidden md:flex space-x-20 text-2xl">
+			<div className="hidden md:flex space-x-20 text-2xl animate-zoom-appear">
 				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
 				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
 				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
@@ -70,16 +70,16 @@ function App() {
 			<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
 		</button>
 		<main className="flex-grow pt-16 z-10">
-		<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<div>Loading...</div>}>
 			<Routes>
-			<Route path="/" element={<Home />} />
-			<Route path="/about" element={<About />} />
-			<Route path="/projects" element={<Projects />} />
-			<Route path="/courses" element={<Courses />} />
-			<Route path="/blog" element={<Blog />} />
-			<Route path="/contact" element={<Contact />} />
+				<Route path="/" element={<Home />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/projects" element={<Projects />} />
+				<Route path="/courses" element={<Courses />} />
+				<Route path="/blog" element={<Blog />} />
+				<Route path="/contact" element={<Contact />} />
 			</Routes>
-		</Suspense>
+			</Suspense>
 		</main>
 		<footer className="bg-gray-900 text-white p-4 z-50">
 			<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
@@ -102,4 +102,4 @@ function App() {
 	);
 }
 
-export default App;
+export default React.memo(App);
