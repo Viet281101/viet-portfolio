@@ -1,0 +1,4 @@
+Add face 3D by using Avaturn: https://avaturn.me/
+Add model animation by Mixamo: https://www.mixamo.com/#/
+- Waving: [Mixamo Waving Animation](https://www.mixamo.com/#/?page=1&query=waving)
+- Idle Drunk Variation: [Drunk Idle Variation ON CH35_NONPBR](https://www.mixamo.com/#/?page=1&query=drunk+idle+variation&type=Motion%2CMotionPack)

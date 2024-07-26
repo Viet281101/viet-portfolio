@@ -31,8 +31,8 @@ header.fixed {
 	top: 0; left: 0; right: 0; z-index: 1000;
 	&.hidden { transform: translateY(-100%); }
 }
-header .text-3xl { text-shadow: 3px 3px $primary-color; color: white; }
-header .text-3xl:hover { text-shadow: 3px 3px white; color: $primary-color; }
+header .text-3xl { text-shadow: 2px 2px $primary-color; color: white; }
+header .text-3xl:hover { text-shadow: 2px 2px white; color: $primary-color; }
 #menu-icon {
 	top: 1rem;
 	right: 1rem;

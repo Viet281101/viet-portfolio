@@ -6,17 +6,15 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 		if (!canvas) return;
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
-
 		const resizeCanvas = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-		window.addEventListener('resize', resizeCanvas);
+		const debouncedResizeCanvas = debounce(resizeCanvas, 100);
+		window.addEventListener('resize', debouncedResizeCanvas);
 		resizeCanvas();
 
 		class Particle {
 			effect: Effect;
-			x: number;
-			y: number;
-			speedX: number;
-			speedY: number;
+			x: number; y: number;
+			speedX: number; speedY: number;
 			speedModifier: number;
 			history: { x: number; y: number }[];
 			maxLength: number;
@@ -60,8 +58,10 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 					this.x += this.speedX * this.speedModifier;
 					this.y += this.speedY * this.speedModifier;
 					this.history.push({ x: this.x, y: this.y });
-					if (this.history.length > this.maxLength) { this.history.shift(); }
-				} else if (this.history.length > 1) { this.history.shift(); } 
+					if (this.history.length > this.maxLength) {
+						this.history.shift();
+					}
+				} else if (this.history.length > 1) { this.history.shift(); }
 				else { this.reset(); }
 			}
 			reset() {
@@ -90,8 +90,8 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.width = this.canvas.width;
 				this.height = this.canvas.height;
 				this.particles = [];
-				this.numberParticles = (window.innerWidth <= 768) ? 25 : 80;
-				this.cellSize = (window.innerWidth <= 768) ? 30 : 40;
+				this.numberParticles = this.getNumberOfParticles(window.innerWidth);
+				this.cellSize = window.innerWidth <= 768 ? 30 : 40;
 				this.rows = 0;
 				this.cols = 0;
 				this.flowField = [];
@@ -99,8 +99,10 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.zoom = 0.01;
 				this.debug = false;
 				this.init();
-				// window.addEventListener("keydown", (e) => { if (e.key === 'd') this.debug = !this.debug; });
-				window.addEventListener("resize", () => { this.resize(window.innerWidth, window.innerHeight); });
+				window.addEventListener('resize', debouncedResizeCanvas);
+			}
+			getNumberOfParticles(width: number): number {
+				return width <= 768 ? 25 : 80;
 			}
 			init() {
 				this.rows = Math.floor(this.height / this.cellSize);
@@ -113,7 +115,9 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 					}
 				}
 				this.particles = [];
-				for (let i = 0; i < this.numberParticles; i++) { this.particles.push(new Particle(this)); }
+				for (let i = 0; i < this.numberParticles; i++) {
+					this.particles.push(new Particle(this));
+				}
 			}
 			drawGrid(context: CanvasRenderingContext2D) {
 				context.save();
@@ -138,8 +142,8 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.canvas.height = height;
 				this.width = this.canvas.width;
 				this.height = this.canvas.height;
-				this.numberParticles = (width <= 768) ? 25 : 80;
-				this.cellSize = (width <= 768) ? 30 : 40;
+				this.numberParticles = this.getNumberOfParticles(width);
+				this.cellSize = width <= 768 ? 30 : 40;
 				this.init();
 			}
 			render(context: CanvasRenderingContext2D) {
@@ -157,6 +161,11 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 			requestAnimationFrame(animate);
 		};
 		animate();
-		return () => { window.removeEventListener('resize', resizeCanvas); };
+		return () => { window.removeEventListener('resize', debouncedResizeCanvas); };
 	}, [canvasRef]);
+};
+
+function debounce(func: (...args: any[]) => void, wait: number) {
+	let timeout: NodeJS.Timeout;
+	return (...args: any[]) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); };
 };

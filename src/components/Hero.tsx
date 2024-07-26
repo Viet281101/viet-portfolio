@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, lazy } from 'react';
 import { useFlowFieldEffect } from '../hooks/useFlowFieldEffect';
-import ComputersCanvas from './Computers';
+const ComputersCanvas = lazy(() => import('./Computers'));
 
 const Hero: React.FC = () => {
 	const bgCanvasRef = useRef<HTMLCanvasElement>(null);
