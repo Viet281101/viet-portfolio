@@ -190,8 +190,7 @@ const HolographicMaterial: React.FC<HolographicMaterialProps> = ({
 	});
 
 	const material = useMemo(
-		() =>
-			new HolographicMaterialImpl({
+		() => new HolographicMaterialImpl({
 				uniforms: {
 					time: { value: 0 },
 					fresnelOpacity: { value: fresnelOpacity },
@@ -221,16 +220,11 @@ const HolographicMaterial: React.FC<HolographicMaterialProps> = ({
 	return React.createElement('primitive', {
 		object: material,
 		attach: 'material',
-		side:
-			side === 'DoubleSide'
-				? DoubleSide
-				: side === 'BackSide'
-				? BackSide
-				: FrontSide,
+		side: side === 'DoubleSide' ? DoubleSide : side === 'BackSide' ? BackSide : FrontSide,
 		transparent: true,
 		blending: enableAdditive ? AdditiveBlending : NormalBlending,
 		ref: ref,
 	});
 };
 
-export default HolographicMaterial;
+export default React.memo(HolographicMaterial);

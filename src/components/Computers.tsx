@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect, useState, useMemo, useCallback } from "react";
+import React, { Suspense, useEffect, useState, useMemo, useCallback, lazy } from "react";
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-
-import CanvasLoader from "./Loader";
+const CanvasLoader = lazy(() => import("./Loader"));
 import desktop_pc from "/desktop_pc/scene.glb?url";
 
 interface ComputersProps {

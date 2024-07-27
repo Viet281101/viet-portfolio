@@ -104,7 +104,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				window.addEventListener('resize', debouncedResizeCanvas);
 			}
 			getNumberOfParticles(width: number): number {
-				return width <= 768 ? 25 : 70;
+				return width <= 768 ? 25 : 55;
 			}
 			init() {
 				this.rows = Math.floor(this.height / this.cellSize);

@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+const HolographicBox = lazy(() => import('./HolographicBox'));
 const ComputersCanvas = lazy(() => import('../components/Computers'));
 const FlowFieldEffectWrapper = lazy(() => import('../components/FlowFieldEffectWrapper'));
 
@@ -19,7 +20,9 @@ const Hero: React.FC = () => {
 			<ComputersCanvas />
 			</div>
 		</div>
-		<canvas id="hero-graphic" className="hero-canvas z-20" />
+		<div id="hero-graphic" className="hero-canvas z-20">
+			<HolographicBox />
+		</div>
 		</div>
 	);
 };
