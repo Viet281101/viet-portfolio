@@ -15,14 +15,14 @@ const Computers = React.memo(({ isMobile }: ComputersProps) => {
 		<hemisphereLight intensity={1.15} groundColor={"blue"} />
 		<pointLight intensity={2} color={"#3ac8f2"}/>
 		<spotLight position={[0, 50, 0]} angle={0.3} penumbra={1} intensity={2} castShadow shadow-mapSize={1024} color={"#3ac8f2"} />
-		<primitive object={computer.scene} scale={isMobile ? 0.7 : 0.8} position={isMobile ? [0, 0, -1] : [0, -2, -1]} rotation={[0, 0, 0]} />
+		<primitive object={computer.scene} scale={isMobile ? 0.9 : 0.8} position={isMobile ? [0, -1, -1.4] : [0, -2, -1]} rotation={[0, 0, 0]} />
 		</mesh>
 	);
 });
 
 const ComputersCanvas = () => {
 	const [isMobile, setIsMobile] = useState(false);
-	const mediaQuery = useMemo(() => window.matchMedia("(max-width: 500px)"), []);
+	const mediaQuery = useMemo(() => window.matchMedia("(max-width: 967px)"), []);
 	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => { setIsMobile(event.matches); }, []);
 	useEffect(() => {
 		setIsMobile(mediaQuery.matches);

@@ -16,13 +16,9 @@ const Hero: React.FC = () => {
 				<p>Creative Developer & Programmer</p>
 			</div>
 			</div>
-			<div id="computers-canvas" className="flex-1 z-20">
-			<ComputersCanvas />
-			</div>
+			<div id="computers-canvas" className="flex-1 z-20"><ComputersCanvas/></div>
 		</div>
-		<div id="hero-graphic" className="z-20">
-			<HolographicBox />
-		</div>
+		<div id="hero-graphic" className="z-20"><HolographicBox/></div>
 		</div>
 	);
 };

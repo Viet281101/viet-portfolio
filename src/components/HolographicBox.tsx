@@ -1,10 +1,11 @@
-import React, { useRef, useMemo, lazy } from 'react';
+import React, { useRef, useMemo, lazy, useState, useCallback, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Vector3, Euler, Mesh, BufferGeometry, Float32BufferAttribute } from 'three';
 const HolographicMaterial = lazy(() => import('./HolographicMaterial'));
 
 interface HolographicBoxProps {
 	position: Vector3;
+	mobilePosition?: Vector3;
 	scale: Vector3;
 	rotation: Vector3;
 	holographicProps: {
@@ -24,6 +25,7 @@ interface HolographicBoxProps {
 	rotationSpeed?: Vector3;
 	movementAmplitude?: Vector3;
 	movementSpeed?: Vector3;
+	isMobile?: boolean;
 }
 
 const TriangularPrismGeometry = () => {
@@ -45,7 +47,6 @@ const TriangularPrismGeometry = () => {
 			0.5, -0.5, 0.5,
 			0.5, -0.5, -0.5,
 		]);
-
 		const indices = [
 			// Front face
 			0, 1, 2,
@@ -60,15 +61,12 @@ const TriangularPrismGeometry = () => {
 			0, 2, 5,
 			0, 5, 3,
 		];
-
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
 		geometry.computeVertexNormals();
-
 		return geometry;
 	}, []);
-
 	return <primitive object={geometry} attach="geometry" />;
 };
 
@@ -83,7 +81,6 @@ const PyramidGeometry = () => {
 			// Apex
 			0, 0.5, 0, // top vertex
 		]);
-
 		const indices = [
 			// Base
 			0, 1, 2,
@@ -94,20 +91,18 @@ const PyramidGeometry = () => {
 			2, 3, 4,
 			3, 0, 4,
 		];
-
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
 		geometry.computeVertexNormals();
-
 		return geometry;
 	}, []);
-
 	return <primitive object={geometry} attach="geometry" />;
 };
 
 const HolographicBox: React.FC<HolographicBoxProps> = ({
 	position,
+	mobilePosition,
 	scale,
 	rotation,
 	holographicProps,
@@ -115,26 +110,29 @@ const HolographicBox: React.FC<HolographicBoxProps> = ({
 	rotationSpeed = new Vector3(0.01, 0.01, 0.01),
 	movementAmplitude = new Vector3(0.5, 0.5, 0.5),
 	movementSpeed = new Vector3(0.5, 0.5, 0.5),
+	isMobile = false,
 }) => {
 	const meshRef = useRef<Mesh>(null);
 	const delta = 0.18;
-
-	const memoizedPosition = useMemo(() => position, [position]);
-	const memoizedScale = useMemo(() => scale, [scale]);
+	const actualPosition = useMemo(() => (isMobile && mobilePosition ? mobilePosition : position), [isMobile, mobilePosition, position]);
+	const adjustedScale = useMemo(() => (isMobile ? scale.multiplyScalar(1.2) : scale), [scale, isMobile]);
+	const adjustedRotationSpeed = useMemo(() => (isMobile ? rotationSpeed.multiplyScalar(1.1) : rotationSpeed), [rotationSpeed, isMobile]);
+	const adjustedMovementAmplitude = useMemo(() => (isMobile ? movementAmplitude.multiplyScalar(1.1) : movementAmplitude), [movementAmplitude, isMobile]);
+	const adjustedMovementSpeed = useMemo(() => (isMobile ? movementSpeed.multiplyScalar(1.1) : movementSpeed), [movementSpeed, isMobile]);
+	const memoizedPosition = useMemo(() => actualPosition, [actualPosition]);
+	const memoizedScale = useMemo(() => adjustedScale, [adjustedScale]);
 	const memoizedRotation = useMemo(() => new Euler(rotation.x, rotation.y, rotation.z), [rotation]);
-
 	useFrame(({ clock }) => {
 		if (meshRef.current) {
 			const time = clock.getElapsedTime();
-			meshRef.current.rotation.x += rotationSpeed.x * delta;
-			meshRef.current.rotation.y += rotationSpeed.y * delta;
-			meshRef.current.rotation.z += rotationSpeed.z * delta;
-			meshRef.current.position.x = memoizedPosition.x + Math.sin(time * movementSpeed.x) * movementAmplitude.x;
-			meshRef.current.position.y = memoizedPosition.y + Math.sin(time * movementSpeed.y) * movementAmplitude.y;
-			meshRef.current.position.z = memoizedPosition.z + Math.sin(time * movementSpeed.z) * movementAmplitude.z;
+			meshRef.current.rotation.x += adjustedRotationSpeed.x * delta;
+			meshRef.current.rotation.y += adjustedRotationSpeed.y * delta;
+			meshRef.current.rotation.z += adjustedRotationSpeed.z * delta;
+			meshRef.current.position.x = memoizedPosition.x + Math.sin(time * adjustedMovementSpeed.x) * adjustedMovementAmplitude.x;
+			meshRef.current.position.y = memoizedPosition.y + Math.sin(time * adjustedMovementSpeed.y) * adjustedMovementAmplitude.y;
+			meshRef.current.position.z = memoizedPosition.z + Math.sin(time * adjustedMovementSpeed.z) * adjustedMovementAmplitude.z;
 		}
 	});
-
 	return (
 		<mesh ref={meshRef} position={memoizedPosition} scale={memoizedScale} rotation={memoizedRotation}>
 			{geometryType === 'box' ? (
@@ -152,12 +150,21 @@ const HolographicBox: React.FC<HolographicBoxProps> = ({
 };
 
 const HolographicCanvas: React.FC = () => {
+	const [isMobile, setIsMobile] = useState(false);
+	const mediaQuery = useMemo(() => window.matchMedia("(max-width: 967px)"), []);
+	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => { setIsMobile(event.matches); }, []);
+	useEffect(() => {
+		setIsMobile(mediaQuery.matches);
+		mediaQuery.addEventListener("change", handleMediaQueryChange);
+		return () => { mediaQuery.removeEventListener("change", handleMediaQueryChange); };
+	}, [mediaQuery, handleMediaQueryChange]);
 	return (
 		<Canvas>
 			<ambientLight intensity={0.5} />
 			<pointLight position={[10, 10, 10]} />
 			<HolographicBox
 				position={new Vector3(-1.1, 0.8, 0)}
+				mobilePosition={new Vector3(-2.4, 0.5, 0)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				holographicProps={{
@@ -176,9 +183,11 @@ const HolographicCanvas: React.FC = () => {
 				rotationSpeed={new Vector3(0.01, 0.02, 0.03)}
 				movementAmplitude={new Vector3(0.5, 0.5, 0.5)}
 				movementSpeed={new Vector3(0.5, 0.5, 0.5)}
+				isMobile={isMobile}
 			/>
 			<HolographicBox
 				position={new Vector3(0.8, -0.8, 2.0)}
+				mobilePosition={new Vector3(0.8, -1.2, 2.0)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				geometryType='triangularPrism'
@@ -198,9 +207,11 @@ const HolographicCanvas: React.FC = () => {
 				rotationSpeed={new Vector3(0.02, 0.01, 0.015)}
 				movementAmplitude={new Vector3(0.2, 0.2, 0.2)}
 				movementSpeed={new Vector3(0.3, 0.3, 0.3)}
+				isMobile={isMobile}
 			/>
 			<HolographicBox
-				position={new Vector3(1.2, 3.6, -1)}
+				position={new Vector3(1.2, 3.4, -1)}
+				mobilePosition={new Vector3(1.4, 3.2, -1)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				geometryType="pyramid"
@@ -220,6 +231,7 @@ const HolographicCanvas: React.FC = () => {
 				rotationSpeed={new Vector3(0.015, 0.025, 0.02)}
 				movementAmplitude={new Vector3(0.4, 0.1, 0.4)}
 				movementSpeed={new Vector3(0.4, 0.4, 0.4)}
+				isMobile={isMobile}
 			/>
 		</Canvas>
 	);
