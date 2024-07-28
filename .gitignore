@@ -11,10 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-playwright-report/
-tests
-test-results
-playwright.config.ts
 
 # Editor directories and files
 .vscode/*
