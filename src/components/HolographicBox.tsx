@@ -22,6 +22,8 @@ interface HolographicBoxProps {
 	};
 	geometryType?: 'box' | 'sphere' | 'triangularPrism' | 'pyramid';
 	rotationSpeed?: Vector3;
+	movementAmplitude?: Vector3;
+	movementSpeed?: Vector3;
 }
 
 const TriangularPrismGeometry = () => {
@@ -104,19 +106,32 @@ const PyramidGeometry = () => {
 	return <primitive object={geometry} attach="geometry" />;
 };
 
-const HolographicBox: React.FC<HolographicBoxProps> = ({ position, scale, rotation, holographicProps, geometryType = 'box', rotationSpeed = new Vector3(0.01, 0.01, 0.01) }) => {
+const HolographicBox: React.FC<HolographicBoxProps> = ({
+	position,
+	scale,
+	rotation,
+	holographicProps,
+	geometryType = 'box',
+	rotationSpeed = new Vector3(0.01, 0.01, 0.01),
+	movementAmplitude = new Vector3(0.5, 0.5, 0.5),
+	movementSpeed = new Vector3(0.5, 0.5, 0.5),
+}) => {
 	const meshRef = useRef<Mesh>(null);
-	const delta = 0.15;
+	const delta = 0.18;
 
 	const memoizedPosition = useMemo(() => position, [position]);
 	const memoizedScale = useMemo(() => scale, [scale]);
 	const memoizedRotation = useMemo(() => new Euler(rotation.x, rotation.y, rotation.z), [rotation]);
 
-	useFrame(() => {
+	useFrame(({ clock }) => {
 		if (meshRef.current) {
+			const time = clock.getElapsedTime();
 			meshRef.current.rotation.x += rotationSpeed.x * delta;
 			meshRef.current.rotation.y += rotationSpeed.y * delta;
 			meshRef.current.rotation.z += rotationSpeed.z * delta;
+			meshRef.current.position.x = memoizedPosition.x + Math.sin(time * movementSpeed.x) * movementAmplitude.x;
+			meshRef.current.position.y = memoizedPosition.y + Math.sin(time * movementSpeed.y) * movementAmplitude.y;
+			meshRef.current.position.z = memoizedPosition.z + Math.sin(time * movementSpeed.z) * movementAmplitude.z;
 		}
 	});
 
@@ -142,7 +157,7 @@ const HolographicCanvas: React.FC = () => {
 			<ambientLight intensity={0.5} />
 			<pointLight position={[10, 10, 10]} />
 			<HolographicBox
-				position={new Vector3(-1.1, -0.2, 0)}
+				position={new Vector3(-1.1, 0.8, 0)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				holographicProps={{
@@ -150,55 +165,61 @@ const HolographicCanvas: React.FC = () => {
 					fresnelOpacity: 1.0,
 					scanlineSize: 9.0,
 					hologramBrightness: 0.6,
-					signalSpeed: 0.3,
+					signalSpeed: 0.2,
 					hologramColor: '#51a4de',
-					enableBlinking: true,
-					blinkFresnelOnly: true,
-					enableAdditive: true,
-					hologramOpacity: 1.0,
-					side: 'DoubleSide',
-				}}
-				rotationSpeed={new Vector3(0.01, 0.02, 0.03)}
-			/>
-			<HolographicBox
-				position={new Vector3(1.1, -1.8, 0)}
-				scale={new Vector3(1.4, 1.4, 1.4)}
-				rotation={new Vector3(0, 0, 0)}
-				geometryType='triangularPrism'
-				holographicProps={{
-					fresnelAmount: 0.1,
-					fresnelOpacity: 0.8,
-					scanlineSize: 12.0,
-					hologramBrightness: 1.2,
-					signalSpeed: 0.45,
-					hologramColor: '#0d73aa',
-					enableBlinking: false,
-					blinkFresnelOnly: true,
-					enableAdditive: true,
-					hologramOpacity: 1.0,
-					side: 'DoubleSide',
-				}}
-				rotationSpeed={new Vector3(0.02, 0.01, 0.015)}
-			/>
-			<HolographicBox
-				position={new Vector3(1.2, 2, 0)}
-				scale={new Vector3(0.9, 0.9, 0.9)}
-				rotation={new Vector3(0, 0, 0)}
-				geometryType="pyramid"
-				holographicProps={{
-					fresnelAmount: 0.5,
-					fresnelOpacity: 1.0,
-					scanlineSize: 8.0,
-					hologramBrightness: 0.8,
-					signalSpeed: 0.45,
-					hologramColor: '#3caacc',
 					enableBlinking: true,
 					blinkFresnelOnly: true,
 					enableAdditive: true,
 					hologramOpacity: 0.8,
 					side: 'DoubleSide',
 				}}
+				rotationSpeed={new Vector3(0.01, 0.02, 0.03)}
+				movementAmplitude={new Vector3(0.5, 0.5, 0.5)}
+				movementSpeed={new Vector3(0.5, 0.5, 0.5)}
+			/>
+			<HolographicBox
+				position={new Vector3(0.8, -0.8, 2.0)}
+				scale={new Vector3(1, 1, 1)}
+				rotation={new Vector3(0, 0, 0)}
+				geometryType='triangularPrism'
+				holographicProps={{
+					fresnelAmount: 0.1,
+					fresnelOpacity: 0.8,
+					scanlineSize: 12.0,
+					hologramBrightness: 1.0,
+					signalSpeed: 0.05,
+					hologramColor: '#0d73aa',
+					enableBlinking: true,
+					blinkFresnelOnly: true,
+					enableAdditive: true,
+					hologramOpacity: 0.7,
+					side: 'DoubleSide',
+				}}
+				rotationSpeed={new Vector3(0.02, 0.01, 0.015)}
+				movementAmplitude={new Vector3(0.2, 0.2, 0.2)}
+				movementSpeed={new Vector3(0.3, 0.3, 0.3)}
+			/>
+			<HolographicBox
+				position={new Vector3(1.2, 3.6, -1)}
+				scale={new Vector3(1, 1, 1)}
+				rotation={new Vector3(0, 0, 0)}
+				geometryType="pyramid"
+				holographicProps={{
+					fresnelAmount: 0.5,
+					fresnelOpacity: 0.8,
+					scanlineSize: 6.0,
+					hologramBrightness: 0.8,
+					signalSpeed: 0.45,
+					hologramColor: '#3caacc',
+					enableBlinking: true,
+					blinkFresnelOnly: true,
+					enableAdditive: true,
+					hologramOpacity: 0.9,
+					side: 'DoubleSide',
+				}}
 				rotationSpeed={new Vector3(0.015, 0.025, 0.02)}
+				movementAmplitude={new Vector3(0.4, 0.1, 0.4)}
+				movementSpeed={new Vector3(0.4, 0.4, 0.4)}
 			/>
 		</Canvas>
 	);
