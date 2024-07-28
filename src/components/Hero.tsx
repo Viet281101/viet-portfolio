@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
 			<ComputersCanvas />
 			</div>
 		</div>
-		<div id="hero-graphic" className="hero-canvas z-20">
+		<div id="hero-graphic" className="z-20">
 			<HolographicBox />
 		</div>
 		</div>

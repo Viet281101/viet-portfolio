@@ -21,7 +21,7 @@ const App = () => {
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			const target = event.target as HTMLElement;
-			if (!target.closest('nav') && !target.closest('#menu-icon')) { setIsMenuOpen(false); }
+			if (!target.closest('nav') && !target.closest('#menu-icon')) { handleMenuClose(); }
 		};
 		if (isMenuOpen) { document.addEventListener('click', handleClickOutside); }
 		else { document.removeEventListener('click', handleClickOutside); }
