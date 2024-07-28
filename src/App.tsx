@@ -44,8 +44,8 @@ const App = () => {
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
-			(entries) => { if (entries[0].isIntersecting) { setFooterVisible(true); observer.disconnect(); } }, 
-			{ threshold: 0.1 } 
+			(entries) => { if (entries[0].isIntersecting) { setFooterVisible(true); observer.disconnect(); } },
+			{ threshold: 0.1 }
 		);
 		if (footerRef.current) { observer.observe(footerRef.current); }
 		return () => { if (footerRef.current) { observer.unobserve(footerRef.current); } };
@@ -53,51 +53,95 @@ const App = () => {
 
 	return (
 		<div className="flex flex-col min-h-screen">
-		<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} md:transform-none`}>
-			<nav className="relative flex justify-between items-center">
-			<div className="text-3xl font-bold ps-4 animate-zoom-appear">
-				<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
-			</div>
-			<div className="hidden md:flex space-x-20 text-2xl animate-slide-right">
-				<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
-				<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
-				<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
-				<Link to="/blog" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Blog</Link>
-				<Link to="/contact" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Contact</Link>
-			</div>
-			</nav>
-			{isMenuOpen && (
-			<div className={`absolute left-0 right-0 mt-4 space-y-8 text-xl bg-gray-800 p-4 md:hidden ${isClosing ? 'animate-slide-right-disappear' : 'animate-slide-right'}`}>
-				<Link to="/about" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>About</Link>
-				<Link to="/projects" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Projects</Link>
-				<Link to="/courses" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Courses</Link>
-				<Link to="/blog" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Blog</Link>
-				<Link to="/contact" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Contact</Link>
-			</div>
+			<header
+				className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${
+					scrollDirection === 'down' && 'transform -translate-y-full'
+				} custom:transform-none`}
+			>
+				<nav className="relative flex justify-between items-center">
+					<div className="text-3xl font-bold ps-4 animate-zoom-appear">
+						<Link to="/" onClick={handleLinkClick}>
+							Viet Nguyen
+						</Link>
+					</div>
+					<div className="hidden custom:flex space-x-20 text-2xl animate-slide-right">
+						<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">
+							About
+						</Link>
+						<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">
+							Projects
+						</Link>
+						<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">
+							Courses
+						</Link>
+						<Link to="/blog" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">
+							Blog
+						</Link>
+						<Link to="/contact" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">
+							Contact
+						</Link>
+					</div>
+				</nav>
+				{isMenuOpen && (
+					<div
+						className={`absolute left-0 right-0 mt-4 space-y-8 text-xl bg-gray-800 p-4 custom:hidden ${
+							isClosing ? 'animate-slide-right-disappear' : 'animate-slide-right'
+						}`}
+					>
+						<Link to="/about" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>
+							About
+						</Link>
+						<Link to="/projects" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>
+							Projects
+						</Link>
+						<Link to="/courses" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>
+							Courses
+						</Link>
+						<Link to="/blog" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>
+							Blog
+						</Link>
+						<Link to="/contact" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>
+							Contact
+						</Link>
+					</div>
+				)}
+			</header>
+			<button
+				id="menu-icon"
+				onClick={() => setIsMenuOpen(!isMenuOpen)}
+				className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out"
+			>
+				<img
+					src={menuIcon}
+					alt="Menu"
+					className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`}
+					style={{ transition: 'transform 0.3s ease-in-out' }}
+				/>
+				<img
+					src={closeIcon}
+					alt="Close"
+					className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}
+					style={{ transition: 'transform 0.3s ease-in-out' }}
+				/>
+			</button>
+			<main className="flex-grow pt-16 z-10">
+				<Suspense fallback={<div>Loading...</div>}>
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/projects" element={<Projects />} />
+						<Route path="/courses" element={<Courses />} />
+						<Route path="/blog" element={<Blog />} />
+						<Route path="/contact" element={<Contact />} />
+					</Routes>
+				</Suspense>
+			</main>
+			<div ref={footerRef} className="h-4"></div>
+			{footerVisible && (
+				<Suspense fallback={<div>Loading...</div>}>
+					<Footer />
+				</Suspense>
 			)}
-		</header>
-		<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 md:hidden transition-transform duration-300 ease-in-out">
-			<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
-			<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`} style={{ transition: 'transform 0.3s ease-in-out' }} />
-		</button>
-		<main className="flex-grow pt-16 z-10">
-			<Suspense fallback={<div>Loading...</div>}>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/projects" element={<Projects />} />
-				<Route path="/courses" element={<Courses />} />
-				<Route path="/blog" element={<Blog />} />
-				<Route path="/contact" element={<Contact />} />
-			</Routes>
-			</Suspense>
-		</main>
-		<div ref={footerRef} className="h-4"></div>
-		{footerVisible && (
-			<Suspense fallback={<div>Loading...</div>}>
-			<Footer />
-			</Suspense>
-		)}
 		</div>
 	);
 }

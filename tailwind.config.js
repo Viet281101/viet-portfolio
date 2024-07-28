@@ -6,7 +6,12 @@ export default {
 		"./src/**/*.{scss,css}"
 	],
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				'custom': '940px',
+			},
+		},
 	},
+	variants: {},
 	plugins: [],
 }
