@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
 		<div id="hero-text-container" className="hero-content z-20 flex flex-col justify-between h-full">
 			<div id="hero-text" className="flex-1 flex items-center justify-center animate-zoom-appear">
 			<div>
-				<h1>VIET NGUYEN</h1>
+				<h1 className='tubelight-txt'>VIET NGUYEN</h1>
 				<p>Creative Developer & Programmer</p>
 			</div>
 			</div>
