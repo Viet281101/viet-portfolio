@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 const HolographicBox = lazy(() => import('./HolographicBox'));
 const ComputersCanvas = lazy(() => import('../components/Computers'));
 const FlowFieldEffectWrapper = lazy(() => import('../components/FlowFieldEffectWrapper'));
+import downArrow from '/down_arrow.png';
 
 const Hero: React.FC = () => {
 	return (
@@ -19,6 +20,9 @@ const Hero: React.FC = () => {
 			<div id="computers-canvas" className="flex-1 z-20"><ComputersCanvas/></div>
 		</div>
 		<div id="hero-graphic" className="z-20"><HolographicBox/></div>
+		<div className='absolute xs:bottom-10 bottom-8 w-full flex justify-center items-center z-50'>
+			<img src={downArrow} alt="Scroll Down" />
+		</div>
 		</div>
 	);
 };

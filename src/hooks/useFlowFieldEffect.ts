@@ -36,7 +36,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.timer = this.maxLength * 2;
 				this.colors = ["#3bc9f3", "#38c5f1", "#1a99dc", "#1591d8"];
 				this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
-				this.lineWidth = Math.random() * 0.6 + 0.2;
+				this.lineWidth = Math.random() * 0.7 + 0.3;
 			}
 			draw(context: CanvasRenderingContext2D) {
 				context.beginPath();

@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
-	const handleLinkClick = useCallback((url: string) => {
-		window.open(url, '_blank', 'noopener,noreferrer');
-	}, []);
-
+	const handleLinkClick = useCallback((url: string) => { window.open(url, '_blank', 'noopener,noreferrer'); }, []);
 	return (
 		<footer className="bg-gray-900 text-[cyan] p-4 z-50 animate-zoom-appear">
 		<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
@@ -18,14 +15,14 @@ const Footer: React.FC = () => {
 			<Link to="/projects" className="neon-text">Projects</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
 			<Link to="/courses" className="neon-text">Courses</Link>
 			</div>
-			<div className="md:order-3 order-3 flex space-x-4">
-			<button onClick={() => handleLinkClick('https://github.com/Viet281101')} className="hover:scale-125">
+			<div className="md:order-3 order-3 flex space-x-5">
+			<button onClick={() => handleLinkClick('https://github.com/Viet281101')} className="hover:scale-150">
 				<FaGithub size={24} />
 			</button>
-			<button onClick={() => handleLinkClick('https://linkedin.com')} className="hover:scale-125">
+			<button onClick={() => handleLinkClick('https://linkedin.com')} className="hover:scale-150">
 				<FaLinkedin size={24} />
 			</button>
-			<button onClick={() => handleLinkClick('https://twitter.com')} className="hover:scale-125">
+			<button onClick={() => handleLinkClick('https://x.com/vietanh15458684')} className="hover:scale-150">
 				<FaTwitter size={24} />
 			</button>
 			</div>
