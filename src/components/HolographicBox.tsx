@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, lazy, useState, useCallback, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Vector3, Euler, Mesh, BufferGeometry, Float32BufferAttribute } from 'three';
+import { a, useSpring } from '@react-spring/three';
 const HolographicMaterial = lazy(() => import('./HolographicMaterial'));
 
 interface HolographicBoxProps {
@@ -30,8 +31,32 @@ interface HolographicBoxProps {
 
 const TriangularPrismGeometry = () => {
 	const geometry = useMemo(() => {
-		const vertices = new Float32Array([0, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, ]);
-		const indices = [ 0, 1, 2, 3, 5, 4, 1, 4, 5, 1, 5, 2, 0, 3, 4, 0, 4, 1, 0, 2, 5, 0, 5, 3, ];
+		const vertices = new Float32Array([
+			0, 0.5, 0.5,
+			-0.5, -0.5, 0.5,
+			0.5, -0.5, 0.5,
+			0, 0.5, -0.5,
+			-0.5, -0.5, -0.5,
+			0.5, -0.5, -0.5,
+			0, 0.5, 0.5,
+			0, 0.5, -0.5,
+			-0.5, -0.5, 0.5,
+			-0.5, -0.5, -0.5,
+			0.5, -0.5, 0.5,
+			0.5, -0.5, -0.5,
+		]);
+
+		const indices = [
+			0, 1, 2,
+			3, 5, 4,
+			1, 4, 5,
+			1, 5, 2,
+			0, 3, 4,
+			0, 4, 1,
+			0, 2, 5,
+			0, 5, 3,
+		];
+
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
@@ -43,8 +68,23 @@ const TriangularPrismGeometry = () => {
 
 const PyramidGeometry = () => {
 	const geometry = useMemo(() => {
-		const vertices = new Float32Array([  -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0, 0.5, 0, ]);
-		const indices = [ 0, 1, 2, 0, 2, 3, 0, 1, 4, 1, 2, 4, 2, 3, 4, 3, 0, 4, ];
+		const vertices = new Float32Array([
+			-0.5, -0.5, 0.5,
+			0.5, -0.5, 0.5,
+			0.5, -0.5, -0.5,
+			-0.5, -0.5, -0.5,
+			0, 0.5, 0,
+		]);
+
+		const indices = [
+			0, 1, 2,
+			0, 2, 3,
+			0, 1, 4,
+			1, 2, 4,
+			2, 3, 4,
+			3, 0, 4,
+		];
+
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
@@ -68,14 +108,46 @@ const HolographicBox: React.FC<HolographicBoxProps> = ({
 }) => {
 	const meshRef = useRef<Mesh>(null);
 	const delta = 0.18;
+	const [currentGeometryType, setCurrentGeometryType] = useState(geometryType);
+	const [isAnimating, setIsAnimating] = useState(false);
+	const [isSphere, setIsSphere] = useState(false);
+
 	const actualPosition = useMemo(() => (isMobile && mobilePosition ? mobilePosition : position), [isMobile, mobilePosition, position]);
 	const adjustedScale = useMemo(() => (isMobile ? scale.multiplyScalar(1.2) : scale), [scale, isMobile]);
 	const adjustedRotationSpeed = useMemo(() => (isMobile ? rotationSpeed.multiplyScalar(1.1) : rotationSpeed), [rotationSpeed, isMobile]);
 	const adjustedMovementAmplitude = useMemo(() => (isMobile ? movementAmplitude.multiplyScalar(1.1) : movementAmplitude), [movementAmplitude, isMobile]);
 	const adjustedMovementSpeed = useMemo(() => (isMobile ? movementSpeed.multiplyScalar(1.1) : movementSpeed), [movementSpeed, isMobile]);
+
 	const memoizedPosition = useMemo(() => actualPosition, [actualPosition]);
 	const memoizedScale = useMemo(() => adjustedScale, [adjustedScale]);
 	const memoizedRotation = useMemo(() => new Euler(rotation.x, rotation.y, rotation.z), [rotation]);
+
+	const { scale: animatedScale } = useSpring({
+		scale: isAnimating ? [0.5, 0.5, 0.5] : [1, 1, 1],
+		config: { duration: 300 },
+		onRest: () => setIsAnimating(false),
+	});
+
+	const toggleShape = useCallback(() => {
+		if (!isAnimating) {
+			setIsAnimating(true);
+			setIsSphere(!isSphere);
+			setCurrentGeometryType(isSphere ? geometryType : 'sphere');
+		}
+	}, [isAnimating, isSphere, geometryType]);
+
+	useEffect(() => {
+		let timer: NodeJS.Timeout;
+		if (isSphere) {
+			timer = setTimeout(() => {
+				setIsAnimating(true);
+				setIsSphere(false);
+				setCurrentGeometryType(geometryType);
+			}, 2000);
+		}
+		return () => clearTimeout(timer);
+	}, [isSphere, geometryType]);
+
 	useFrame(({ clock }) => {
 		if (meshRef.current) {
 			const time = clock.getElapsedTime();
@@ -87,30 +159,41 @@ const HolographicBox: React.FC<HolographicBoxProps> = ({
 			meshRef.current.position.z = memoizedPosition.z + Math.sin(time * adjustedMovementSpeed.z) * adjustedMovementAmplitude.z;
 		}
 	});
+
 	return (
-		<mesh ref={meshRef} position={memoizedPosition} scale={memoizedScale} rotation={memoizedRotation}>
-			{geometryType === 'box' ? (
+		<a.mesh
+			ref={meshRef}
+			position={memoizedPosition}
+			scale={animatedScale.to((s) => [s * memoizedScale.x, s * memoizedScale.y, s * memoizedScale.z])}
+			rotation={memoizedRotation}
+			onClick={toggleShape}
+		>
+			{currentGeometryType === 'box' ? (
 				<boxGeometry args={[1, 1, 1]} />
-			) : geometryType === 'sphere' ? (
+			) : currentGeometryType === 'sphere' ? (
 				<sphereGeometry args={[0.75, 32, 32]} />
-			) : geometryType === 'triangularPrism' ? (
+			) : currentGeometryType === 'triangularPrism' ? (
 				<TriangularPrismGeometry />
 			) : (
 				<PyramidGeometry />
 			)}
 			<HolographicMaterial {...holographicProps} />
-		</mesh>
+		</a.mesh>
 	);
 };
 
 const HolographicCanvas: React.FC = () => {
 	const [isMobile, setIsMobile] = useState(false);
-	const mediaQuery = useMemo(() => window.matchMedia("(max-width: 967px)"), []);
-	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => { setIsMobile(event.matches); }, []);
+	const mediaQuery = useMemo(() => window.matchMedia('(max-width: 967px)'), []);
+	const handleMediaQueryChange = useCallback((event: MediaQueryListEvent) => {
+		setIsMobile(event.matches);
+	}, []);
 	useEffect(() => {
 		setIsMobile(mediaQuery.matches);
-		mediaQuery.addEventListener("change", handleMediaQueryChange);
-		return () => { mediaQuery.removeEventListener("change", handleMediaQueryChange); };
+		mediaQuery.addEventListener('change', handleMediaQueryChange);
+		return () => {
+			mediaQuery.removeEventListener('change', handleMediaQueryChange);
+		};
 	}, [mediaQuery, handleMediaQueryChange]);
 	return (
 		<Canvas>
@@ -143,7 +226,7 @@ const HolographicCanvas: React.FC = () => {
 				mobilePosition={new Vector3(0.8, -1.2, 2.0)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
-				geometryType='triangularPrism'
+				geometryType="triangularPrism"
 				holographicProps={{
 					fresnelAmount: 0.1, fresnelOpacity: 0.8,
 					scanlineSize: 12.0,
@@ -171,7 +254,7 @@ const HolographicCanvas: React.FC = () => {
 					fresnelAmount: 0.5, fresnelOpacity: 0.8,
 					scanlineSize: 6.0,
 					hologramBrightness: 0.8,
-					signalSpeed: 0.45,
+					signalSpeed: 0.4,
 					hologramColor: '#3caacc',
 					enableBlinking: true,
 					blinkFresnelOnly: true,
