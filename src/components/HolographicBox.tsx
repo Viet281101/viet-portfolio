@@ -1,7 +1,8 @@
-import React, { useRef, useMemo, lazy, useState, useCallback, useEffect } from 'react';
+import React, { Suspense, useRef, useMemo, lazy, useState, useCallback, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Vector3, Euler, Mesh, BufferGeometry, Float32BufferAttribute } from 'three';
 import { a, useSpring } from '@react-spring/three';
+const CanvasLoader = lazy(() => import("./Loader"));
 const HolographicMaterial = lazy(() => import('./HolographicMaterial'));
 
 interface HolographicBoxProps {
@@ -45,7 +46,6 @@ const TriangularPrismGeometry = () => {
 			0.5, -0.5, 0.5,
 			0.5, -0.5, -0.5,
 		]);
-
 		const indices = [
 			0, 1, 2,
 			3, 5, 4,
@@ -75,7 +75,6 @@ const PyramidGeometry = () => {
 			-0.5, -0.5, -0.5,
 			0, 0.5, 0,
 		]);
-
 		const indices = [
 			0, 1, 2,
 			0, 2, 3,
@@ -196,9 +195,10 @@ const HolographicCanvas: React.FC = () => {
 		};
 	}, [mediaQuery, handleMediaQueryChange]);
 	return (
-		<Canvas>
-			<ambientLight intensity={0.5} />
-			<pointLight position={[10, 10, 10]} />
+	<Canvas>
+		<ambientLight intensity={0.5} />
+		<pointLight position={[10, 10, 10]} />
+		<Suspense fallback={<CanvasLoader />}>
 			<HolographicBox
 				position={new Vector3(-1.1, 0.8, 0)}
 				mobilePosition={new Vector3(-2.4, 0.5, 0)}
@@ -267,6 +267,7 @@ const HolographicCanvas: React.FC = () => {
 				movementSpeed={new Vector3(0.4, 0.4, 0.4)}
 				isMobile={isMobile}
 			/>
+			</Suspense>
 		</Canvas>
 	);
 };
