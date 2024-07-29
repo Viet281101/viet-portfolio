@@ -53,26 +53,26 @@ const App = () => {
 
 	return (
 		<div className="flex flex-col min-h-screen">
-			<header className={`bg-gray-800 text-white p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
+			<header className={`bg-gray-800 text-[#01d9ff] p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
 				<nav className="relative flex justify-between items-center">
 					<div className="text-3xl font-bold ps-4 animate-zoom-appear">
 						<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
 					</div>
 					<div className="hidden custom:flex space-x-20 text-2xl animate-slide-right">
-						<Link to="/about" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">About</Link>
-						<Link to="/projects" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Projects</Link>
-						<Link to="/courses" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Courses</Link>
-						<Link to="/blog" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Blog</Link>
-						<Link to="/contact" className="hover:text-[#3ac8f2] active:text-[#16cfd9]">Contact</Link>
+						<Link to="/about" className="neon-text">About</Link>
+						<Link to="/projects" className="neon-text">Projects</Link>
+						<Link to="/courses" className="neon-text">Courses</Link>
+						<Link to="/blog" className="neon-text">Blog</Link>
+						<Link to="/contact" className="neon-text">Contact</Link>
 					</div>
 				</nav>
 				{isMenuOpen && (
 					<div className={`absolute left-0 right-0 mt-4 space-y-8 text-xl bg-gray-800 p-4 custom:hidden ${isClosing ? 'animate-slide-right-disappear' : 'animate-slide-right'}`}>
-						<Link to="/about" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>About</Link>
-						<Link to="/projects" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Projects</Link>
-						<Link to="/courses" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Courses</Link>
-						<Link to="/blog" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Blog</Link>
-						<Link to="/contact" className="block hover:text-[#3ac8f2] active:text-[#16cfd9]" onClick={handleLinkClick}>Contact</Link>
+						<Link to="/about" className="block active:bg-slate-600" onClick={handleLinkClick}>About</Link>
+						<Link to="/projects" className="block active:bg-slate-600" onClick={handleLinkClick}>Projects</Link>
+						<Link to="/courses" className="block active:bg-slate-600" onClick={handleLinkClick}>Courses</Link>
+						<Link to="/blog" className="block active:bg-slate-600" onClick={handleLinkClick}>Blog</Link>
+						<Link to="/contact" className="block active:bg-slate-600" onClick={handleLinkClick}>Contact</Link>
 					</div>
 				)}
 			</header>
