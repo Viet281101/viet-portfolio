@@ -30,37 +30,8 @@ interface HolographicBoxProps {
 
 const TriangularPrismGeometry = () => {
 	const geometry = useMemo(() => {
-		const vertices = new Float32Array([
-			// Front face
-			0, 0.5, 0.5, // top vertex
-			-0.5, -0.5, 0.5, // bottom-left vertex
-			0.5, -0.5, 0.5, // bottom-right vertex
-			// Back face
-			0, 0.5, -0.5, // top vertex
-			-0.5, -0.5, -0.5, // bottom-left vertex
-			0.5, -0.5, -0.5, // bottom-right vertex
-			// Connecting edges
-			0, 0.5, 0.5,
-			0, 0.5, -0.5,
-			-0.5, -0.5, 0.5,
-			-0.5, -0.5, -0.5,
-			0.5, -0.5, 0.5,
-			0.5, -0.5, -0.5,
-		]);
-		const indices = [
-			// Front face
-			0, 1, 2,
-			// Back face
-			3, 5, 4,
-			// Bottom face
-			1, 4, 5,
-			1, 5, 2,
-			// Top edges
-			0, 3, 4,
-			0, 4, 1,
-			0, 2, 5,
-			0, 5, 3,
-		];
+		const vertices = new Float32Array([0, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, ]);
+		const indices = [ 0, 1, 2, 3, 5, 4, 1, 4, 5, 1, 5, 2, 0, 3, 4, 0, 4, 1, 0, 2, 5, 0, 5, 3, ];
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
@@ -72,25 +43,8 @@ const TriangularPrismGeometry = () => {
 
 const PyramidGeometry = () => {
 	const geometry = useMemo(() => {
-		const vertices = new Float32Array([
-			// Base
-			-0.5, -0.5, 0.5, // bottom-left vertex
-			0.5, -0.5, 0.5, // bottom-right vertex
-			0.5, -0.5, -0.5, // top-right vertex
-			-0.5, -0.5, -0.5, // top-left vertex
-			// Apex
-			0, 0.5, 0, // top vertex
-		]);
-		const indices = [
-			// Base
-			0, 1, 2,
-			0, 2, 3,
-			// Sides
-			0, 1, 4,
-			1, 2, 4,
-			2, 3, 4,
-			3, 0, 4,
-		];
+		const vertices = new Float32Array([  -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0, 0.5, 0, ]);
+		const indices = [ 0, 1, 2, 0, 2, 3, 0, 1, 4, 1, 2, 4, 2, 3, 4, 3, 0, 4, ];
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		geometry.setIndex(indices);
@@ -168,8 +122,7 @@ const HolographicCanvas: React.FC = () => {
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				holographicProps={{
-					fresnelAmount: 0.5,
-					fresnelOpacity: 1.0,
+					fresnelAmount: 0.5, fresnelOpacity: 1.0,
 					scanlineSize: 9.0,
 					hologramBrightness: 0.6,
 					signalSpeed: 0.2,
@@ -192,8 +145,7 @@ const HolographicCanvas: React.FC = () => {
 				rotation={new Vector3(0, 0, 0)}
 				geometryType='triangularPrism'
 				holographicProps={{
-					fresnelAmount: 0.1,
-					fresnelOpacity: 0.8,
+					fresnelAmount: 0.1, fresnelOpacity: 0.8,
 					scanlineSize: 12.0,
 					hologramBrightness: 1.0,
 					signalSpeed: 0.05,
@@ -216,8 +168,7 @@ const HolographicCanvas: React.FC = () => {
 				rotation={new Vector3(0, 0, 0)}
 				geometryType="pyramid"
 				holographicProps={{
-					fresnelAmount: 0.5,
-					fresnelOpacity: 0.8,
+					fresnelAmount: 0.5, fresnelOpacity: 0.8,
 					scanlineSize: 6.0,
 					hologramBrightness: 0.8,
 					signalSpeed: 0.45,
