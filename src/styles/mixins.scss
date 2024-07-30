@@ -1,3 +1,6 @@
 @mixin transition($property, $duration, $timing) {
 	transition: $property $duration $timing;
 }
+@mixin text-glow($color) {
+	text-shadow: 0 0 10px $color, 0 0 20px $color, 0 0 40px $color;
+}

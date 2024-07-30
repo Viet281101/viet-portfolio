@@ -3,9 +3,15 @@ export default {
 	content: [
 		"./index.html",
 		"./src/**/*.{js,ts,jsx,tsx}",
+		"./src/**/*.{scss,css}"
 	],
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				'custom': '940px',
+			},
+		},
 	},
+	variants: {},
 	plugins: [],
 }

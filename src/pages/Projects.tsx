@@ -1,7 +1,7 @@
 
 function Projects() {
 	return (
-		<div>
+		<div className="text-white">
 		<h1>Projects</h1>
 		<p>Welcome to my portfolio!</p>
 		</div>
