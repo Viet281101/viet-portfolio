@@ -29,18 +29,9 @@ html, body { width: 100%; margin: 0; padding: 0; }
 	50% { text-shadow: 0 0 2px $primary-color, 0 0 5px $primary-color, 0 0 10px $primary-color, 0 0 20px $secondary-color, 0 0 40px $secondary-color, 0 0 45px $secondary-color, 0 0 50px $secondary-color, 0 0 75px $secondary-color; }
 }
 .animate-zoom-appear { animation: zoom-appear 1s ease-in-out; }
-.animate-slide-right {
-	@include transition(opacity, 0.5s, ease-in-out);
-	animation: slide-right 0.5s ease-in-out;
-}
-.animate-slide-right-disappear {
-	@include transition(opacity, 0.5s, ease-in-out);
-	animation: slide-right-disappear 0.5s ease-in-out;
-}
-header.fixed {
-	top: 0; left: 0; right: 0; z-index: 1000;
-	&.hidden { transform: translateY(-100%); }
-}
+.animate-slide-right { @include transition(opacity, 0.5s, ease-in-out); animation: slide-right 0.5s ease-in-out; }
+.animate-slide-right-disappear { @include transition(opacity, 0.5s, ease-in-out); animation: slide-right-disappear 0.5s ease-in-out; }
+header.fixed { top: 0; left: 0; right: 0; z-index: 1000; &.hidden { transform: translateY(-100%); } }
 header .text-3xl { text-shadow: 2px 2px $primary-color; color: rgb(184, 247, 255); }
 header .text-3xl:hover { text-shadow: 2px 2px rgb(184, 247, 255); color: $primary-color; }
 header .text-3xl:active { text-decoration: underline overline cyan; }
