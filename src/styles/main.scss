@@ -28,6 +28,10 @@ html, body { width: 100%; margin: 0; padding: 0; }
 	0%, 100% { text-shadow: 0 0 4px $primary-color, 0 0 10px $primary-color, 0 0 20px $primary-color, 0 0 40px $secondary-color, 0 0 80px $secondary-color, 0 0 90px $secondary-color, 0 0 100px $secondary-color, 0 0 150px $secondary-color; }
 	50% { text-shadow: 0 0 2px $primary-color, 0 0 5px $primary-color, 0 0 10px $primary-color, 0 0 20px $secondary-color, 0 0 40px $secondary-color, 0 0 45px $secondary-color, 0 0 50px $secondary-color, 0 0 75px $secondary-color; }
 }
+@keyframes arrow-bounce {
+	0%, 100% { transform: translateY(-5px); }
+	50% { transform: translateY(10px); }
+}
 .animate-zoom-appear { animation: zoom-appear 1s ease-in-out; }
 .animate-slide-right { @include transition(opacity, 0.5s, ease-in-out); animation: slide-right 0.5s ease-in-out; }
 .animate-slide-right-disappear { @include transition(opacity, 0.5s, ease-in-out); animation: slide-right-disappear 0.5s ease-in-out; }
@@ -78,7 +82,7 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 }
 #computers-canvas { flex: 1; min-height: auto; }
 #hero-graphic { flex: 1; height: 100%; width: 100%; padding-right: 2%; }
-.arrows { opacity: 0.5; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
+.arrows { opacity: 0.5; animation: arrow-bounce 2s infinite; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
 .tubelight-txt { animation:tubelight .2s linear infinite; }
 .neon-text { text-shadow: 0 0 5px $primary-color; }
 .neon-text:hover { animation: neon-glow 1.5s infinite alternate; }

@@ -5,17 +5,19 @@ const sections = ['/', '/about', '/projects', '/courses', '/blog', '/contact'];
 
 interface FullPageProps {
 	children: ReactNode;
+	enableScroll?: boolean;
 }
 
-const FullPage: React.FC<FullPageProps> = ({ children }) => {
+const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [canScroll, setCanScroll] = useState(true);
+	const [isNavigating, setIsNavigating] = useState(false);
 	const touchStartY = useRef<number | null>(null);
 
 	const handleScroll = (event: WheelEvent | TouchEvent, deltaY: number) => {
-		if (!canScroll) return;
+		if (!enableScroll || !canScroll || isNavigating) return;
 
 		const container = containerRef.current;
 		if (!container) return;
@@ -28,22 +30,31 @@ const FullPage: React.FC<FullPageProps> = ({ children }) => {
 			event.preventDefault();
 			const currentIndex = sections.indexOf(location.pathname);
 			if (currentIndex < sections.length - 1) {
-				navigate(sections[currentIndex + 1]);
-				setCanScroll(false);
+				setIsNavigating(true);
+				setTimeout(() => {
+					navigate(sections[currentIndex + 1]);
+					setTimeout(() => {
+						setCanScroll(true);
+						setIsNavigating(false);
+					}, 2000);
+				}, 1000);
 			}
 		} else if (deltaY < 0 && isAtTop) {
 			event.preventDefault();
 			const currentIndex = sections.indexOf(location.pathname);
 			if (currentIndex > 0) {
+				setIsNavigating(true);
 				navigate(sections[currentIndex - 1]);
-				setCanScroll(false);
+				setTimeout(() => {
+					setCanScroll(true);
+					setIsNavigating(false);
+				}, 1500);
 			}
 		}
 	};
 
 	const handleWheel = (event: WheelEvent) => {
 		handleScroll(event, event.deltaY);
-		setTimeout(() => setCanScroll(true), 1000);
 	};
 
 	const handleTouchStart = (event: TouchEvent) => {
@@ -54,7 +65,6 @@ const FullPage: React.FC<FullPageProps> = ({ children }) => {
 		if (touchStartY.current !== null) {
 			const deltaY = touchStartY.current - event.touches[0].clientY;
 			handleScroll(event, deltaY);
-			setTimeout(() => setCanScroll(true), 1000);
 		}
 	};
 
@@ -78,7 +88,7 @@ const FullPage: React.FC<FullPageProps> = ({ children }) => {
 				container.removeEventListener('touchend', handleTouchEnd);
 			}
 		};
-	}, [location, canScroll]);
+	}, [location, canScroll, isNavigating, enableScroll]);
 
 	return <div ref={containerRef} className="fullpage-container" style={{ height: '100vh', overflowY: 'auto' }}>{children}</div>;
 };
