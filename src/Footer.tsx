@@ -16,15 +16,9 @@ const Footer: React.FC = () => {
 			<Link to="/courses" className="neon-text">Courses</Link>
 			</div>
 			<div className="md:order-3 order-3 flex space-x-5">
-			<button onClick={() => handleLinkClick('https://github.com/Viet281101')} className="hover:scale-150">
-				<FaGithub size={24} />
-			</button>
-			<button onClick={() => handleLinkClick('https://linkedin.com')} className="hover:scale-150">
-				<FaLinkedin size={24} />
-			</button>
-			<button onClick={() => handleLinkClick('https://x.com/vietanh15458684')} className="hover:scale-150">
-				<FaTwitter size={24} />
-			</button>
+			<button onClick={() => handleLinkClick('https://github.com/Viet281101')} className="hover:scale-150"><FaGithub size={28}/></button>
+			<button onClick={() => handleLinkClick('https://linkedin.com')} className="hover:scale-150"><FaLinkedin size={28}/></button>
+			<button onClick={() => handleLinkClick('https://x.com/vietanh15458684')} className="hover:scale-150"><FaTwitter size={28}/></button>
 			</div>
 		</div>
 		</footer>

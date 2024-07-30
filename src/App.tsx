@@ -55,9 +55,7 @@ const App = () => {
 		<div className="flex flex-col min-h-screen">
 			<header className={`bg-gray-800 text-[#01d9ff] p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
 				<nav className="relative flex justify-between items-center">
-					<div className="text-3xl font-bold ps-4 animate-zoom-appear">
-						<Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link>
-					</div>
+					<div className="text-3xl font-bold ps-4 animate-zoom-appear"><Link to="/" onClick={handleLinkClick}>Viet Nguyen</Link></div>
 					<div className="hidden custom:flex space-x-20 text-2xl animate-slide-right">
 						<Link to="/about" className="neon-text">About</Link>
 						<Link to="/projects" className="neon-text">Projects</Link>
@@ -76,17 +74,9 @@ const App = () => {
 					</div>
 				)}
 			</header>
-			<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}
-				className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out"
-			>
-				<img src={menuIcon} alt="Menu"
-					className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`}
-					style={{ transition: 'transform 0.3s ease-in-out' }}
-				/>
-				<img src={closeIcon} alt="Close"
-					className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}
-					style={{ transition: 'transform 0.3s ease-in-out' }}
-				/>
+			<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out">
+				<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }}/>
+				<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }}/>
 			</button>
 			<main className="flex-grow pt-16 z-10">
 				<Suspense fallback={<div>Loading...</div>}>
