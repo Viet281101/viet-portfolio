@@ -8,6 +8,9 @@ export default defineConfig({
 	css: {
 		preprocessorOptions: { scss: { additionalData: `@import "./src/styles/variables.scss";` } }
 	},
+	server: {
+		proxy: { '/api': 'http://localhost:5173/', },
+	},
 	build: {
 		rollupOptions: {
 			output: {
