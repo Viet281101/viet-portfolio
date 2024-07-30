@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 const HolographicBox = lazy(() => import('./HolographicBox'));
 const ComputersCanvas = lazy(() => import('../components/Computers'));
 const FlowFieldEffectWrapper = lazy(() => import('../components/FlowFieldEffectWrapper'));
@@ -21,7 +22,7 @@ const Hero: React.FC = () => {
 		</div>
 		<div id="hero-graphic" className="z-20"><HolographicBox/></div>
 		<div className='absolute xs:bottom-10 bottom-8 w-full flex justify-center items-center z-50'>
-			<img src={downArrow} alt="Scroll Down" />
+			<Link to="/about"><img src={downArrow} alt="Scroll Down" className='arrows'/></Link>
 		</div>
 		</div>
 	);

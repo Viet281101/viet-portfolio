@@ -87,6 +87,7 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 }
 #computers-canvas { flex: 1; min-height: auto; }
 #hero-graphic { flex: 1; height: 100%; width: 100%; padding-right: 2%; }
+.arrows { opacity: 0.5; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
 .tubelight-txt { animation:tubelight .2s linear infinite; }
 .neon-text { text-shadow: 0 0 5px $primary-color; }
 .neon-text:hover { animation: neon-glow 1.5s infinite alternate; }
