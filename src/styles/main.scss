@@ -41,6 +41,13 @@ header .text-3xl:hover { text-shadow: 2px 2px rgb(184, 247, 255); color: $primar
 header .text-3xl:active { text-decoration: underline overline cyan; }
 #menu-icon { top: 1rem; right: 1rem; z-index: 1800; }
 body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: $bg-color; z-index: 1; }
+.tubelight-txt { animation:tubelight .2s linear infinite; }
+.neon-text { text-shadow: 0 0 5px $primary-color; }
+.neon-text:hover { animation: neon-glow 1.5s infinite alternate; }
+.neon-text:active { box-shadow: 0 0 10px aqua, 0 0 20px aqua, 0 0 30px aqua, 0 0 40px aqua; border-radius: 40%; }
+.loading-container { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: $bg-color; }
+.loading-bar { width: 60%; height: 12px; background-color: rgb(68, 69, 71); border-radius: 15px; overflow: hidden; }
+.loading-progress { height: 100%; background-color: #01d9ff; transition: width 0.3s; }
 /* Hero Section */
 .hero {
 	position: relative;
@@ -83,10 +90,6 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 #computers-canvas { flex: 1; min-height: auto; }
 #hero-graphic { flex: 1; height: 100%; width: 100%; padding-right: 2%; }
 .arrows { opacity: 0.5; animation: arrow-bounce 2s infinite; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
-.tubelight-txt { animation:tubelight .2s linear infinite; }
-.neon-text { text-shadow: 0 0 5px $primary-color; }
-.neon-text:hover { animation: neon-glow 1.5s infinite alternate; }
-.neon-text:active { box-shadow: 0 0 10px aqua, 0 0 20px aqua, 0 0 30px aqua, 0 0 40px aqua; border-radius: 40%; }
 /* Responsive Design */
 @media (max-width: 1300px) {
 	#hero-text-container h1 { font-size: 4rem; }

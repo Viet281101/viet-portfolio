@@ -8,6 +8,7 @@ const Courses = lazy(() => import('./pages/Courses'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Footer = lazy(() => import('./Footer'));
+const Loading = lazy(() => import('./components/Loading'));
 
 import menuIcon from '/menu.png';
 import closeIcon from '/x_close.png';
@@ -57,7 +58,7 @@ const App = () => {
 	}, [footerRef]);
 
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Loading />}>
 			<FullPage enableScroll={false} onScroll={handleScrollDirection}>
 				<div className="flex flex-col min-h-screen">
 					<header className={`bg-gray-800 text-[#01d9ff] p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
@@ -86,7 +87,7 @@ const App = () => {
 						<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }}/>
 					</button>
 					<main className="flex-grow pt-16 z-10">
-						<Suspense fallback={<div>Loading...</div>}>
+						<Suspense fallback={<Loading />}>
 							<Routes>
 								<Route path="/" element={<Home />} />
 								<Route path="/about" element={<About />} />
@@ -99,7 +100,7 @@ const App = () => {
 					</main>
 					<div ref={footerRef} className="h-4"></div>
 					{footerVisible && (
-						<Suspense fallback={<div>Loading...</div>}>
+						<Suspense fallback={<Loading />}>
 							<Footer />
 						</Suspense>
 					)}
