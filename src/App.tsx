@@ -1,5 +1,6 @@
-import React, { Suspense, lazy, useState, useEffect, useCallback, useRef } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 const FullPage = lazy(() => import('./FullPage'));
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -7,7 +8,6 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Courses = lazy(() => import('./pages/Courses'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
-const Footer = lazy(() => import('./Footer'));
 const Loading = lazy(() => import('./components/Loading'));
 
 import menuIcon from '/menu.png';
@@ -17,8 +17,6 @@ const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false);
 	const [scrollDirection, setScrollDirection] = useState('up');
-	const [footerVisible, setFooterVisible] = useState(false);
-	const footerRef = useRef<HTMLDivElement>(null);
 
 	const handleScrollDirection = (direction: 'up' | 'down') => {
 		setScrollDirection(direction);
@@ -48,14 +46,7 @@ const App = () => {
 	const handleMenuClose = useCallback(() => { setIsClosing(true); setTimeout(() => { setIsMenuOpen(false); setIsClosing(false); }, 400); }, []);
 	const handleLinkClick = useCallback(() => { if (isMenuOpen) { handleMenuClose(); } }, [isMenuOpen, handleMenuClose]);
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => { if (entries[0].isIntersecting) { setFooterVisible(true); observer.disconnect(); } },
-			{ threshold: 0.1 }
-		);
-		if (footerRef.current) { observer.observe(footerRef.current); }
-		return () => { if (footerRef.current) { observer.unobserve(footerRef.current); } };
-	}, [footerRef]);
+	const handleLinkClickFooter = useCallback((url: string) => { window.open(url, '_blank', 'noopener,noreferrer'); }, []);
 
 	return (
 		<Suspense fallback={<Loading />}>
@@ -98,12 +89,23 @@ const App = () => {
 							</Routes>
 						</Suspense>
 					</main>
-					<div ref={footerRef} className="h-4"></div>
-					{footerVisible && (
-						<Suspense fallback={<Loading />}>
-							<Footer />
-						</Suspense>
-					)}
+					<footer className="bg-gray-900 text-[cyan] p-4 z-50">
+						<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
+							<div className="md:order-1 order-2">
+								<Link to="/" className="neon-text">Viet Nguyen</Link> / © 2024 Viet NGUYEN
+							</div>
+							<div className="md:order-2 order-1 space-x-4 text-xl">
+								<Link to="/about" className="neon-text">About</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
+								<Link to="/projects" className="neon-text">Projects</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
+								<Link to="/courses" className="neon-text">Courses</Link>
+							</div>
+							<div className="md:order-3 order-3 flex space-x-5">
+								<button onClick={() => handleLinkClickFooter('https://github.com/Viet281101')} className="hover:scale-150"><FaGithub size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://linkedin.com')} className="hover:scale-150"><FaLinkedin size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://x.com/vietanh15458684')} className="hover:scale-150"><FaTwitter size={28}/></button>
+							</div>
+						</div>
+					</footer>
 				</div>
 			</FullPage>
 		</Suspense>

@@ -46,7 +46,7 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 .neon-text:hover { animation: neon-glow 1.5s infinite alternate; }
 .neon-text:active { box-shadow: 0 0 10px aqua, 0 0 20px aqua, 0 0 30px aqua, 0 0 40px aqua; border-radius: 40%; }
 .loading-container { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: $bg-color; }
-.loading-bar { width: 60%; height: 12px; background-color: rgb(68, 69, 71); border-radius: 15px; overflow: hidden; }
+.loading-bar { width: 60%; height: 15px; background-color: rgb(68, 69, 71); border-radius: 20px; overflow: hidden; }
 .loading-progress { height: 100%; background-color: #01d9ff; transition: width 0.3s; }
 /* Hero Section */
 .hero {
