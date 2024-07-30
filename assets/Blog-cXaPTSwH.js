@@ -1,1 +1,0 @@
-import{j as o}from"./index-DC39g7s8.js";import"./hls.js-CqkleIqs.js";function r(){return o.jsxs("div",{className:"text-white",children:[o.jsx("h1",{children:"Blog"}),o.jsx("p",{children:"Welcome to my portfolio!"})]})}export{r as default};

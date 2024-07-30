@@ -1,0 +1,1 @@
+import{j as e}from"./index-B6DIhT4y.js";import"./hls.js-CqkleIqs.js";function r(){return e.jsxs("div",{className:"text-white",children:[e.jsx("h1",{children:"Courses"}),e.jsx("p",{children:"Welcome to my portfolio!"})]})}export{r as default};
