@@ -19,6 +19,10 @@ const App = () => {
 	const [footerVisible, setFooterVisible] = useState(false);
 	const footerRef = useRef<HTMLDivElement>(null);
 
+	const handleScrollDirection = (direction: 'up' | 'down') => {
+		setScrollDirection(direction);
+	};
+
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			const target = event.target as HTMLElement;
@@ -54,7 +58,7 @@ const App = () => {
 
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
-			<FullPage enableScroll={false}>
+			<FullPage enableScroll={false} onScroll={handleScrollDirection}>
 				<div className="flex flex-col min-h-screen">
 					<header className={`bg-gray-800 text-[#01d9ff] p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
 						<nav className="relative flex justify-between items-center">

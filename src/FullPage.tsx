@@ -6,9 +6,10 @@ const sections = ['/', '/about', '/projects', '/courses', '/blog', '/contact'];
 interface FullPageProps {
 	children: ReactNode;
 	enableScroll?: boolean;
+	onScroll?: (direction: 'up' | 'down') => void;
 }
 
-const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) => {
+const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true, onScroll }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -51,6 +52,7 @@ const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) =>
 				}, 1500);
 			}
 		}
+		if (onScroll) { onScroll(deltaY > 0 ? 'down' : 'up'); }
 	};
 
 	const handleWheel = (event: WheelEvent) => {
@@ -93,4 +95,4 @@ const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) =>
 	return <div ref={containerRef} className="fullpage-container" style={{ height: '100vh', overflowY: 'auto' }}>{children}</div>;
 };
 
-export default FullPage;
+export default React.memo(FullPage);
