@@ -36,7 +36,7 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.timer = this.maxLength * 2;
 				this.colors = ["#3bc9f3", "#38c5f1", "#1a99dc", "#1591d8"];
 				this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
-				this.lineWidth = Math.random() * 0.7 + 0.3;
+				this.lineWidth = (Math.random() * 0.7 + 0.3);
 			}
 			draw(context: CanvasRenderingContext2D) {
 				context.beginPath();
@@ -93,18 +93,18 @@ export const useFlowFieldEffect = (canvasRef: React.RefObject<HTMLCanvasElement>
 				this.height = this.canvas.height;
 				this.particles = [];
 				this.numberParticles = this.getNumberOfParticles(window.innerWidth);
-				this.cellSize = window.innerWidth <= 768 ? 30 : 40;
+				this.cellSize = (window.innerWidth <= 768) ? 30 : 40;
 				this.rows = 0;
 				this.cols = 0;
 				this.flowField = [];
-				this.curve = 9;
+				this.curve = (window.innerWidth <= 768) ? 7 : 9;
 				this.zoom = 0.01;
 				this.debug = false;
 				this.init();
 				window.addEventListener('resize', debouncedResizeCanvas);
 			}
 			getNumberOfParticles(width: number): number {
-				return width <= 768 ? 25 : 60;
+				return width <= 768 ? 30 : 60;
 			}
 			init() {
 				this.rows = Math.floor(this.height / this.cellSize);
