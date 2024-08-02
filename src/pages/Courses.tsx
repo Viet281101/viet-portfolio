@@ -1,5 +1,6 @@
+import React from 'react';
 
-function Courses() {
+const Courses: React.FC = () => {
 	return (
 		<div className="text-white">
 		<h1>Courses</h1>
@@ -8,4 +9,4 @@ function Courses() {
 	)
 }
 
-export default Courses
+export default React.memo(Courses);

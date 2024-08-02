@@ -1,5 +1,6 @@
+import React from 'react';
 
-function Projects() {
+const Projects: React.FC = () => {
 	return (
 		<div className="text-white">
 		<h1>Projects</h1>
@@ -8,4 +9,4 @@ function Projects() {
 	)
 }
 
-export default Projects
+export default React.memo(Projects);
