@@ -1,5 +1,6 @@
+import React from 'react';
 
-function Contact() {
+const Contact: React.FC = () => {
 	return (
 		<div className="text-white">
 		<h1>Contact</h1>
@@ -8,4 +9,4 @@ function Contact() {
 	)
 }
 
-export default Contact
+export default React.memo(Contact);

@@ -245,8 +245,8 @@ const HolographicCanvas: React.FC = () => {
 				isMobile={isMobile}
 			/>
 			<HolographicBox
-				position={new Vector3(1.2, 3.4, -1)}
-				mobilePosition={new Vector3(1.4, 3.2, -1)}
+				position={new Vector3(1.2, 3.2, -1)}
+				mobilePosition={new Vector3(1.4, 3.0, -1)}
 				scale={new Vector3(1, 1, 1)}
 				rotation={new Vector3(0, 0, 0)}
 				geometryType="pyramid"
