@@ -73,9 +73,9 @@ const App = () => {
 							</div>
 						)}
 					</header>
-					<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out">
-						<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }}/>
-						<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }}/>
+					<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out" title='Menu'>
+						<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} title='Menu Icon'/>
+						<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }} title='Xclose Icon'/>
 					</button>
 					<main className="flex-grow pt-16 z-10">
 						<Suspense fallback={<Loading />}>
@@ -100,9 +100,9 @@ const App = () => {
 								<Link to="/courses" className="neon-text">Courses</Link>
 							</div>
 							<div className="md:order-3 order-3 flex space-x-5">
-								<button onClick={() => handleLinkClickFooter('https://github.com/Viet281101')} className="hover:scale-150"><FaGithub size={28}/></button>
-								<button onClick={() => handleLinkClickFooter('https://linkedin.com')} className="hover:scale-150"><FaLinkedin size={28}/></button>
-								<button onClick={() => handleLinkClickFooter('https://x.com/vietanh15458684')} className="hover:scale-150"><FaTwitter size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://github.com/Viet281101')} className="hover:scale-150" title='Github Icon'><FaGithub size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://linkedin.com')} className="hover:scale-150" title='Linkedin Icon'><FaLinkedin size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://x.com/vietanh15458684')} className="hover:scale-150" title='Twitter Icon'><FaTwitter size={28}/></button>
 							</div>
 						</div>
 					</footer>
