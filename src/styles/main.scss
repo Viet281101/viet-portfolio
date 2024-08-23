@@ -90,6 +90,8 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 #computers-canvas { flex: 1; min-height: auto; }
 #hero-graphic { flex: 1; height: 100%; width: 100%; padding-right: 2%; }
 .arrows { opacity: 0.5; animation: arrow-bounce 2s infinite; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
+/* About Section */
+
 /* Responsive Design */
 @media (max-width: 1300px) {
 	#hero-text-container h1 { font-size: 4rem; }
