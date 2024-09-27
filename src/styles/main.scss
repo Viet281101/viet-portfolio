@@ -91,7 +91,29 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 #hero-graphic { flex: 1; height: 100%; width: 100%; padding-right: 2%; }
 .arrows { opacity: 0.5; animation: arrow-bounce 2s infinite; } .arrows:hover { opacity: 1; } .arrows:active { transform: scale(1.5); }
 /* About Section */
-
+.about-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+}
+.about-title {
+	font-size: 4rem;
+	color: #9ef4ff;
+	text-shadow: 0 0 10px $primary-color, 0 0 20px $secondary-color;
+	animation: neon-glow 1.5s infinite alternate;
+}
+.about-subtitle {
+	font-size: 1.5rem;
+	color: #3ac8f2;
+	margin-top: 60px;
+	opacity: 0.8;
+	animation: arrow-bounce 1.5s ease-in-out infinite;
+}
 /* Responsive Design */
 @media (max-width: 1300px) {
 	#hero-text-container h1 { font-size: 4rem; }
