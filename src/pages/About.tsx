@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import '../styles/about.scss';
 
 const About: React.FC = () => {
 	const titleRef = useRef<HTMLDivElement>(null);
