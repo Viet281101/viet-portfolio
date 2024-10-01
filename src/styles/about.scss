@@ -5,15 +5,26 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 /* About Section */
+.about-section {
+	height: 800vh;
+}
 .about-container {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
 	text-align: center;
-	position: relative;
-	overflow: hidden;
+	background-color: $bg-color;
+}
+.sticky-title,
+.sticky-subtitle {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 30vh;
+	z-index: 2;
+	transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .about-title {
 	font-size: 4rem;
@@ -24,7 +35,23 @@
 .about-subtitle {
 	font-size: 1.5rem;
 	color: #3ac8f2;
-	margin-top: 60px;
+	margin-top: 80px;
 	opacity: 0.8;
 	animation: arrow-bounce 1.5s ease-in-out infinite;
+}
+.sticky-title,
+.sticky-subtitle {
+	opacity: 1;
+	transform: scale(1);
+}
+.fade-out {
+	opacity: 0;
+	transform: scale(0.5);
+}
+.about-trigger {
+	height: 20vh;
+}
+.about-content {
+	padding: 2rem;
+	color: white;
 }
