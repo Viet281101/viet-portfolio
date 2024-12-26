@@ -1,5 +1,6 @@
-import React, { Suspense, lazy, useState, useEffect, useCallback, useRef } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 const FullPage = lazy(() => import('./FullPage'));
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -7,7 +8,7 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Courses = lazy(() => import('./pages/Courses'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
-const Footer = lazy(() => import('./Footer'));
+const Loading = lazy(() => import('./components/Loading'));
 
 import menuIcon from '/menu.png';
 import closeIcon from '/x_close.png';
@@ -16,8 +17,10 @@ const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false);
 	const [scrollDirection, setScrollDirection] = useState('up');
-	const [footerVisible, setFooterVisible] = useState(false);
-	const footerRef = useRef<HTMLDivElement>(null);
+
+	const handleScrollDirection = (direction: 'up' | 'down') => {
+		setScrollDirection(direction);
+	};
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -43,18 +46,11 @@ const App = () => {
 	const handleMenuClose = useCallback(() => { setIsClosing(true); setTimeout(() => { setIsMenuOpen(false); setIsClosing(false); }, 400); }, []);
 	const handleLinkClick = useCallback(() => { if (isMenuOpen) { handleMenuClose(); } }, [isMenuOpen, handleMenuClose]);
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => { if (entries[0].isIntersecting) { setFooterVisible(true); observer.disconnect(); } },
-			{ threshold: 0.1 }
-		);
-		if (footerRef.current) { observer.observe(footerRef.current); }
-		return () => { if (footerRef.current) { observer.unobserve(footerRef.current); } };
-	}, [footerRef]);
+	const handleLinkClickFooter = useCallback((url: string) => { window.open(url, '_blank', 'noopener,noreferrer'); }, []);
 
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			<FullPage enableScroll={false}>
+		<Suspense fallback={<Loading />}>
+			<FullPage enableScroll={false} onScroll={handleScrollDirection}>
 				<div className="flex flex-col min-h-screen">
 					<header className={`bg-gray-800 text-[#01d9ff] p-4 fixed w-full top-0 z-50 transition-transform duration-300 ease-in-out ${scrollDirection === 'down' && 'transform -translate-y-full'} custom:transform-none`}>
 						<nav className="relative flex justify-between items-center">
@@ -77,12 +73,12 @@ const App = () => {
 							</div>
 						)}
 					</header>
-					<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out">
-						<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }}/>
-						<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }}/>
+					<button id="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="fixed top-4 right-4 z-50 custom:hidden transition-transform duration-300 ease-in-out" title='Menu'>
+						<img src={menuIcon} alt="Menu" className={`w-8 h-8 transform ${isMenuOpen ? 'scale-0' : 'scale-100'}`} style={{ transition: 'transform 0.3s ease-in-out' }} title='Menu Icon'/>
+						<img src={closeIcon} alt="Close" className={`absolute top-0 left-0 w-8 h-8 transform ${isMenuOpen ? 'scale-100' : 'scale-0'}`}  style={{ transition: 'transform 0.3s ease-in-out' }} title='Xclose Icon'/>
 					</button>
 					<main className="flex-grow pt-16 z-10">
-						<Suspense fallback={<div>Loading...</div>}>
+						<Suspense fallback={<Loading />}>
 							<Routes>
 								<Route path="/" element={<Home />} />
 								<Route path="/about" element={<About />} />
@@ -93,12 +89,23 @@ const App = () => {
 							</Routes>
 						</Suspense>
 					</main>
-					<div ref={footerRef} className="h-4"></div>
-					{footerVisible && (
-						<Suspense fallback={<div>Loading...</div>}>
-							<Footer />
-						</Suspense>
-					)}
+					<footer className="bg-gray-900 text-[cyan] p-4 z-50">
+						<div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
+							<div className="md:order-1 order-2">
+								<Link to="/" className="neon-text">Viet Nguyen</Link> / © 2024 Viet NGUYEN
+							</div>
+							<div className="md:order-2 order-1 space-x-4 text-xl">
+								<Link to="/about" className="neon-text">About</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
+								<Link to="/projects" className="neon-text">Projects</Link> <span className="text-2xl text-[#3ac8f2]">/</span>
+								<Link to="/courses" className="neon-text">Courses</Link>
+							</div>
+							<div className="md:order-3 order-3 flex space-x-5">
+								<button onClick={() => handleLinkClickFooter('https://github.com/Viet281101')} className="hover:scale-150" title='Github Icon'><FaGithub size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://linkedin.com')} className="hover:scale-150" title='Linkedin Icon'><FaLinkedin size={28}/></button>
+								<button onClick={() => handleLinkClickFooter('https://x.com/vietanh15458684')} className="hover:scale-150" title='Twitter Icon'><FaTwitter size={28}/></button>
+							</div>
+						</div>
+					</footer>
 				</div>
 			</FullPage>
 		</Suspense>

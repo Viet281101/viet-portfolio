@@ -1,5 +1,6 @@
+import React from 'react';
 
-function Blog() {
+const Blog: React.FC = () => {
 	return (
 		<div className="text-white">
 		<h1>Blog</h1>
@@ -8,4 +9,4 @@ function Blog() {
 	)
 }
 
-export default Blog
+export default React.memo(Blog);

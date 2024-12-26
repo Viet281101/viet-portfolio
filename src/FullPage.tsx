@@ -6,9 +6,10 @@ const sections = ['/', '/about', '/projects', '/courses', '/blog', '/contact'];
 interface FullPageProps {
 	children: ReactNode;
 	enableScroll?: boolean;
+	onScroll?: (direction: 'up' | 'down') => void;
 }
 
-const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) => {
+const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true, onScroll }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -17,7 +18,7 @@ const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) =>
 	const touchStartY = useRef<number | null>(null);
 
 	const handleScroll = (event: WheelEvent | TouchEvent, deltaY: number) => {
-		if (!enableScroll || !canScroll || isNavigating) return;
+		if (!canScroll || isNavigating) return;
 
 		const container = containerRef.current;
 		if (!container) return;
@@ -26,31 +27,34 @@ const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) =>
 		const isAtBottom = scrollTop + clientHeight >= scrollHeight;
 		const isAtTop = scrollTop === 0;
 
-		if (deltaY > 0 && isAtBottom) {
-			event.preventDefault();
-			const currentIndex = sections.indexOf(location.pathname);
-			if (currentIndex < sections.length - 1) {
-				setIsNavigating(true);
-				setTimeout(() => {
-					navigate(sections[currentIndex + 1]);
+		if (enableScroll) {
+			if (deltaY > 0 && isAtBottom) {
+				event.preventDefault();
+				const currentIndex = sections.indexOf(location.pathname);
+				if (currentIndex < sections.length - 1) {
+					setIsNavigating(true);
+					setTimeout(() => {
+						navigate(sections[currentIndex + 1]);
+						setTimeout(() => {
+							setCanScroll(true);
+							setIsNavigating(false);
+						}, 1500);
+					}, 1000);
+				}
+			} else if (deltaY < 0 && isAtTop) {
+				event.preventDefault();
+				const currentIndex = sections.indexOf(location.pathname);
+				if (currentIndex > 0) {
+					setIsNavigating(true);
+					navigate(sections[currentIndex - 1]);
 					setTimeout(() => {
 						setCanScroll(true);
 						setIsNavigating(false);
-					}, 2000);
-				}, 1000);
-			}
-		} else if (deltaY < 0 && isAtTop) {
-			event.preventDefault();
-			const currentIndex = sections.indexOf(location.pathname);
-			if (currentIndex > 0) {
-				setIsNavigating(true);
-				navigate(sections[currentIndex - 1]);
-				setTimeout(() => {
-					setCanScroll(true);
-					setIsNavigating(false);
-				}, 1500);
+					}, 1500);
+				}
 			}
 		}
+		if (onScroll) { onScroll(deltaY > 0 ? 'down' : 'up'); }
 	};
 
 	const handleWheel = (event: WheelEvent) => {
@@ -88,9 +92,9 @@ const FullPage: React.FC<FullPageProps> = ({ children, enableScroll = true }) =>
 				container.removeEventListener('touchend', handleTouchEnd);
 			}
 		};
-	}, [location, canScroll, isNavigating, enableScroll]);
+	}, [location, canScroll, isNavigating]);
 
 	return <div ref={containerRef} className="fullpage-container" style={{ height: '100vh', overflowY: 'auto' }}>{children}</div>;
 };
 
-export default FullPage;
+export default React.memo(FullPage);
